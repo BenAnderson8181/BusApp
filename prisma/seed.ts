@@ -2,11 +2,12 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-import userType from './data/userType';
-import vehicleType from "./data/vehicleType";
-import eld from "./data/eld";
-import bookingStatus from "./data/bookingStatus";
-import paymentStatus from "./data/paymentStatus";
+// import userType from './data/userType';
+// import vehicleType from "./data/vehicleType";
+// import eld from "./data/eld";
+// import bookingStatus from "./data/bookingStatus";
+// import paymentStatus from "./data/paymentStatus";
+// import day from "./data/day";
 
 async function main() {
     // lvl 1 seeding - no dependencies
@@ -25,6 +26,9 @@ async function main() {
 
     // // payment status
     // await prisma.paymentStatus.createMany({ data: paymentStatus });
+
+    // // day
+    // await prisma.day.createMany({ data: day });
 }
 
 main()
