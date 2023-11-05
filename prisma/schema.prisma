@@ -6,15 +6,343 @@ generator client {
 }
 
 datasource db {
-    provider = "sqlite"
+    provider = "mysql"
     url      = env("DATABASE_URL")
+    relationMode = "prisma"
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model Company {
+    id                          String          @id @default(cuid())
+    name                        String
+    DOT                         String
+    address                     String
+    city                        String
+    state                       String
+    zip                         String
+    country                     String
+    email                       String
+    website                     String?
+    companyPhone                String
+    dispatchPhone               String?
+    mobilePhone                 String?
+    ELDId                       String?
+    ELD                         ELD?            @relation(fields: [ELDId], references: [id])
+    rates                       Rate[]
+    adjustments                 Adjustment[]
+    bookings                    Booking[]
+    payments                    Payment[]
+    createdAt                   DateTime        @default(now())
+    updatedAt                   DateTime        @updatedAt
 
-    @@index([name])
+    @@index([ELDId])
+}
+
+model ELD {
+    id                          String          @id @default(cuid())
+    name                        String
+    companies                   Company[]
+    createdAt                   DateTime        @default(now())
+    updatedAt                   DateTime        @updatedAt
+}
+
+model Vehicle {
+    id                          String          @id @default(cuid())
+    name                        String
+    images                      VehicleImages[]
+    vehicleTypeId               String
+    vehicleType                 VehicleType     @relation(fields: [vehicleTypeId], references: [id])
+    make                        String
+    model                       String
+    year                        Int
+    capacity                    Int
+    vinNumber                   String
+    licensePlate                String
+    garageId                    String?
+    garage                      Garage?         @relation(fields: [garageId], references: [id])
+    wifi                        Boolean
+    bathroom                    Boolean
+    ADACompliant                Boolean
+    Outlets                     Boolean
+    alcoholAllowed              Boolean
+    luggage                     Boolean
+    seatBelts                   Boolean
+    TVScreens                   Boolean
+    leatherSeats                Boolean
+    bookingVehicles             BookingVehicle[]
+    createdAt                   DateTime        @default(now())
+    updatedAt                   DateTime        @updatedAt
+
+    @@index([vehicleTypeId])
+    @@index([garageId])
+}
+
+model VehicleImages {
+    id                          String          @id @default(cuid())
+    filePath                    String
+    vehicleId                   String
+    vehicle                     Vehicle         @relation(fields: [vehicleId], references: [id])
+    createdAt                   DateTime        @default(now())
+    updatedAt                   DateTime        @updatedAt
+
+    @@index([vehicleId])
+}
+
+model VehicleType {
+    id                          String          @id @default(cuid())
+    name                        String
+    vehicles                    Vehicle[]
+    userVehiclesTypes           UserVehicleType[]
+    rates                       Rate[]
+    adjustments                 Adjustment[]
+    createdAt                   DateTime        @default(now())
+    updatedAt                   DateTime        @updatedAt
+}
+
+model Garage {
+    id                          String          @id @default(cuid())
+    name                        String
+    address                     String
+    city                        String
+    state                       String
+    zip                         String
+    vehicles                    Vehicle[]
+    createdAt                   DateTime        @default(now())
+    updatedAt                   DateTime        @updatedAt
+}
+
+model User {
+    id                          String          @id @default(cuid())
+    externalId                  String?         @unique
+    firstName                   String
+    lastName                    String
+    email                       String
+    userTypeId                  String
+    userType                    UserType        @relation(fields: [userTypeId], references: [id])
+    isDriver                    Boolean
+    phone                       String?
+    drugTestNumber              String?
+    drugTestExpirationMonth     String?
+    drugTestExpirationYear      Int?
+    licenseNumber               String?
+    state                       String?
+    licenseExpirationMonth      String
+    licenseExpirationYear       Int?
+    notes                       String          @db.VarChar(1500)
+    userVehiclesTypes           UserVehicleType[]
+    bookingDrivers              BookingDriver[]
+    createdAt                   DateTime        @default(now())
+    updatedAt                   DateTime        @updatedAt
+
+    @@index([userTypeId]) 
+}
+
+model UserType {
+    id                          String          @id @default(cuid())
+    name                        String
+    users                       User[]
+    createdAt                   DateTime        @default(now())
+    updatedAt                   DateTime        @updatedAt
+}
+
+model UserVehicleType {
+    id                          String          @id @default(cuid())
+    userId                      String
+    user                        User            @relation(fields: [userId], references: [id])
+    userVehicleTypeId           String
+    userVehicleType             VehicleType     @relation(fields: [userVehicleTypeId], references: [id])
+    createdAt                   DateTime        @default(now())
+    updatedAt                   DateTime        @updatedAt
+
+    @@index([userId])
+    @@index([userVehicleTypeId])
+}
+
+model Rate {
+    id                          String          @id @default(cuid())
+    vehicleTypeId               String
+    vehicleType                 VehicleType     @relation(fields: [vehicleTypeId], references: [id])
+    transfer                    Decimal
+    deadMile                    Decimal
+    liveMile                    Decimal
+    hourly                      Decimal
+    minimumHours                Int
+    daily                       Decimal
+    companyId                   String
+    company                     Company         @relation(fields: [companyId], references: [id])
+    createdAt                   DateTime        @default(now())
+    updatedAt                   DateTime        @updatedAt
+
+    @@index([vehicleTypeId])
+    @@index([companyId])
+}
+
+model Adjustment {
+    id                          String          @id @default(cuid())
+    name                        String
+    startDate                   DateTime
+    endDate                     DateTime
+    companyId                   String
+    company                     Company         @relation(fields: [companyId], references: [id])
+    vehicleTypeId               String
+    vehicleType                 VehicleType     @relation(fields: [vehicleTypeId], references: [id])
+    adjustmentDays              AdjustmentDay[]
+    adjustmentRateTypes         AdjustmentRateType[]
+    createdAt                   DateTime        @default(now())
+    updatedAt                   DateTime        @updatedAt
+
+    @@index([companyId])
+    @@index([vehicleTypeId])
+}
+
+model RateType {
+    id                          String          @id @default(cuid())
+    name                        String
+    adjustmentRateTypes         AdjustmentRateType[] 
+    createdAt                   DateTime        @default(now())
+    updatedAt                   DateTime        @updatedAt
+}
+
+model AdjustmentDay {
+    id                          String          @id @default(cuid())
+    adjustmentId                String
+    adjustment                  Adjustment      @relation(fields: [adjustmentId], references: [id])
+    dayId                       String
+    day                         Day             @relation(fields: [dayId], references: [id])
+    createdAt                   DateTime        @default(now())
+    updatedAt                   DateTime        @updatedAt
+
+    @@index([adjustmentId])
+    @@index([dayId])
+}
+
+model Day {
+    id                          String          @id @default(cuid())
+    name                        String
+    adjustmentsDays             AdjustmentDay[]
+    createdAt                   DateTime        @default(now())
+    updatedAt                   DateTime        @updatedAt
+}
+
+model AdjustmentRateType {
+    id                          String          @id @default(cuid())
+    rateTypeId                  String
+    rateType                    RateType        @relation(fields: [rateTypeId], references: [id])
+    adjustmentId                String
+    adjustment                  Adjustment      @relation(fields: [adjustmentId], references: [id])
+    createdAt                   DateTime        @default(now())
+    updatedAt                   DateTime        @updatedAt
+
+    @@index([rateTypeId])
+    @@index([adjustmentId])
+}
+
+model Booking {
+    id                          String          @id @default(cuid())
+    customerId                  String
+    bookingStatusId             String
+    bookingStatus               BookingStatus   @relation(fields: [bookingStatusId], references: [id])
+    companyId                   String
+    company                     Company         @relation(fields: [companyId], references: [id])
+    bookingDetails              BookingDetail[]
+    bookingVehicles             BookingVehicle[]
+    bookingDrivers              BookingDriver[]
+    bids                        Bid[]
+    createdAt                   DateTime        @default(now())
+    updatedAt                   DateTime        @updatedAt
+
+    @@index([bookingStatusId])
+    @@index([companyId])
+}
+
+model BookingStatus {
+    id                          String          @id @default(cuid())
+    name                        String
+    bookings                    Booking[]
+    createdAt                   DateTime        @default(now())
+    updatedAt                   DateTime        @updatedAt
+}
+
+model BookingDetail {
+    id                          String          @id @default(cuid())
+    bookingId                   String
+    booking                     Booking         @relation(fields: [bookingId], references: [id])
+    startAddress                String
+    startCity                   String
+    startState                  String
+    startZip                    String
+    endAddress                  String
+    endCity                     String
+    endState                    String
+    endZip                      String
+    spotTime                    DateTime
+    pickupTime                  DateTime
+    estimatedArrival            DateTime
+    totalMiles                  Decimal
+    passengers                  Int
+    createdAt                   DateTime        @default(now())
+    updatedAt                   DateTime        @updatedAt
+
+    @@index([bookingId])
+}
+
+model BookingVehicle {
+    id                          String          @id @default(cuid())
+    bookingId                   String
+    booking                     Booking         @relation(fields: [bookingId], references: [id])
+    vehicleId                   String
+    vehicle                     Vehicle         @relation(fields: [vehicleId], references: [id])
+    createdAt                   DateTime        @default(now())
+    updatedAt                   DateTime        @updatedAt
+
+    @@index([bookingId])
+    @@index([vehicleId])
+}
+
+model BookingDriver {
+    id                          String          @id @default(cuid())
+    bookingId                   String
+    booking                     Booking         @relation(fields: [bookingId], references: [id])
+    userId                      String
+    user                        User            @relation(fields: [userId], references: [id])
+    createdAt                   DateTime        @default(now())
+    updatedAt                   DateTime        @updatedAt
+
+    @@index([bookingId])
+    @@index([userId])
+}
+
+model Bid {
+    id                          String          @id @default(cuid())
+    customerId                  String
+    bookingId                   String?
+    booking                     Booking?        @relation(fields: [bookingId], references: [id])
+    averageAmount               Decimal
+    acceptedAmount              Decimal
+    createdAt                   DateTime        @default(now())
+    updatedAt                   DateTime        @updatedAt
+
+    @@index([bookingId])
+}
+
+model Payment {
+    id                          String          @id @default(cuid())
+    companyId                   String
+    company                     Company         @relation(fields: [companyId], references: [id])
+    paymentStatusId             String
+    paymentStatus               PaymentStatus   @relation(fields: [paymentStatusId], references: [id])
+    initialPrice                Decimal
+    paidOut                     Decimal
+    createdAt                   DateTime        @default(now())
+    updatedAt                   DateTime        @updatedAt
+
+    @@index([companyId])
+    @@index([paymentStatusId])
+}
+
+model PaymentStatus {
+    id                          String          @id @default(cuid())
+    name                        String
+    payments                    Payment[]
+    createdAt                   DateTime        @default(now())
+    updatedAt                   DateTime        @updatedAt
 }
