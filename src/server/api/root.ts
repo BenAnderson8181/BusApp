@@ -5,6 +5,7 @@ import { vehicleTypeRouter } from "./routers/vehicleType";
 import { userTypeRouter } from "./routers/userType";
 import { dayRouter } from "./routers/day";
 import { bookingStatusRouter } from "./routers/bookingStatus";
+import { companyRouter } from "./routers/company";
 
 /**
  * This is the primary router for your server.
@@ -17,6 +18,7 @@ export const appRouter = createTRPCRouter({
   userType: userTypeRouter,
   day: dayRouter,
   bookingStatus: bookingStatusRouter,
+  company: companyRouter,
   
 });
 

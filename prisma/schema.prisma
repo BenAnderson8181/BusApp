@@ -27,6 +27,7 @@ model Company {
     mobilePhone                 String?
     ELDId                       String?
     ELD                         ELD?            @relation(fields: [ELDId], references: [id])
+    IsActive                    Boolean         @default(true)
     rates                       Rate[]
     adjustments                 Adjustment[]
     bookings                    Booking[]
