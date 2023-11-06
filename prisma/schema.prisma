@@ -33,6 +33,7 @@ model Company {
     bookings                    Booking[]
     payments                    Payment[]
     vehicles                    Vehicle[]
+    garages                     Garage[]
     createdAt                   DateTime        @default(now())
     updatedAt                   DateTime        @updatedAt
 
@@ -113,8 +114,13 @@ model Garage {
     state                       String
     zip                         String
     vehicles                    Vehicle[]
+    companyId                   String
+    company                     Company         @relation(fields: [companyId], references: [id])
+    isActive                    Boolean         @default(true)
     createdAt                   DateTime        @default(now())
     updatedAt                   DateTime        @updatedAt
+
+    @@index([companyId])
 }
 
 model User {
