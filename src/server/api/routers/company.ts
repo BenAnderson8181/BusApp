@@ -20,7 +20,8 @@ export const companyRouter = createTRPCRouter({
                     rates: true,
                     adjustments: true,
                     bookings: true,
-                    payments: true
+                    payments: true,
+                    vehicles: true
                 }
             });
 
@@ -30,7 +31,7 @@ export const companyRouter = createTRPCRouter({
             return account;
         }
     ),
-    createCompany: protectedProcedure
+    create: protectedProcedure
         .input(
             z.object({
                 name: z.string().min(2).max(100),
@@ -122,7 +123,7 @@ export const companyRouter = createTRPCRouter({
 
             return companies;
         }),
-    updateCompany: protectedProcedure
+    update: protectedProcedure
         .input(
             z.object({
                 id: z.string(),
