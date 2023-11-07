@@ -12,6 +12,10 @@ import { garageRouter } from "./routers/garage";
 import { userRouter } from "./routers/user";
 import { userVehicleTypeRouter } from "./routers/userVehicleType";
 import { rateRouter } from "./routers/rate";
+import { adjustmentRouter } from "./routers/adjustment";
+import { rateTypeRouter } from "./routers/rateType";
+import { adjustmentDayRouter } from "./routers/adjustmentDay";
+import { adjustmentRateTypeRouter } from "./routers/adjustmentRateType";
 
 /**
  * This is the primary router for your server.
@@ -31,6 +35,10 @@ export const appRouter = createTRPCRouter({
   user: userRouter,
   userVehicleType: userVehicleTypeRouter,
   rate: rateRouter,
+  adjustment: adjustmentRouter,
+  rateType: rateTypeRouter,
+  adjustmentDay: adjustmentDayRouter,
+  adjustmentRate: adjustmentRateTypeRouter,
   
 });
 

@@ -23,7 +23,8 @@ export const companyRouter = createTRPCRouter({
                     payments: true,
                     vehicles: true,
                     garages: true,
-                    users: true
+                    users: true,
+                    rateTypes: true
                 }
             });
 

@@ -35,6 +35,7 @@ model Company {
     vehicles                    Vehicle[]
     garages                     Garage[]
     users                       User[]
+    rateTypes                   RateType[]
     createdAt                   DateTime        @default(now())
     updatedAt                   DateTime        @updatedAt
 
@@ -208,6 +209,7 @@ model Adjustment {
     vehicleType                 VehicleType     @relation(fields: [vehicleTypeId], references: [id])
     adjustmentDays              AdjustmentDay[]
     adjustmentRateTypes         AdjustmentRateType[]
+    isActive                    Boolean         @default(true)
     createdAt                   DateTime        @default(now())
     updatedAt                   DateTime        @updatedAt
 
@@ -218,9 +220,14 @@ model Adjustment {
 model RateType {
     id                          String          @id @default(cuid())
     name                        String
-    adjustmentRateTypes         AdjustmentRateType[] 
+    adjustmentRateTypes         AdjustmentRateType[]
+    companyId                   String
+    company                     Company         @relation(fields: [companyId], references: [id])
+    isActive                    Boolean         @default(true)
     createdAt                   DateTime        @default(now())
     updatedAt                   DateTime        @updatedAt
+
+    @@index([companyId])
 }
 
 model AdjustmentDay {
@@ -229,6 +236,7 @@ model AdjustmentDay {
     adjustment                  Adjustment      @relation(fields: [adjustmentId], references: [id])
     dayId                       String
     day                         Day             @relation(fields: [dayId], references: [id])
+    isActive                    Boolean         @default(true)
     createdAt                   DateTime        @default(now())
     updatedAt                   DateTime        @updatedAt
 
@@ -250,6 +258,7 @@ model AdjustmentRateType {
     rateType                    RateType        @relation(fields: [rateTypeId], references: [id])
     adjustmentId                String
     adjustment                  Adjustment      @relation(fields: [adjustmentId], references: [id])
+    isActive                    Boolean         @default(true)
     createdAt                   DateTime        @default(now())
     updatedAt                   DateTime        @updatedAt
 
