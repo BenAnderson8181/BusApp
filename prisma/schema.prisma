@@ -34,6 +34,7 @@ model Company {
     payments                    Payment[]
     vehicles                    Vehicle[]
     garages                     Garage[]
+    users                       User[]
     createdAt                   DateTime        @default(now())
     updatedAt                   DateTime        @updatedAt
 
@@ -138,14 +139,18 @@ model User {
     drugTestExpirationYear      Int?
     licenseNumber               String?
     state                       String?
-    licenseExpirationMonth      String
+    licenseExpirationMonth      String?
     licenseExpirationYear       Int?
-    notes                       String          @db.VarChar(1500)
+    notes                       String?         @db.VarChar(1500)
     userVehiclesTypes           UserVehicleType[]
     bookingDrivers              BookingDriver[]
+    companyId                   String
+    company                     Company         @relation(fields: [companyId], references: [id])
+    isActive                    Boolean         @default(true)
     createdAt                   DateTime        @default(now())
     updatedAt                   DateTime        @updatedAt
 
+    @@index([companyId])
     @@index([userTypeId]) 
 }
 

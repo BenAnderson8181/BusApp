@@ -7,6 +7,9 @@ import { dayRouter } from "./routers/day";
 import { bookingStatusRouter } from "./routers/bookingStatus";
 import { companyRouter } from "./routers/company";
 import { vehicleRouter } from "./routers/vehicle";
+import { vehicleImageRouter } from "./routers/vehicleImage";
+import { garageRouter } from "./routers/garage";
+import { userRouter } from "./routers/user";
 
 /**
  * This is the primary router for your server.
@@ -21,7 +24,9 @@ export const appRouter = createTRPCRouter({
   bookingStatus: bookingStatusRouter,
   company: companyRouter,
   vehicle: vehicleRouter,
-  
+  vehicleImage: vehicleImageRouter,
+  garage: garageRouter,
+  user: userRouter,
 });
 
 // export type definition of API
