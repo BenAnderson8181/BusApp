@@ -10,6 +10,8 @@ import { vehicleRouter } from "./routers/vehicle";
 import { vehicleImageRouter } from "./routers/vehicleImage";
 import { garageRouter } from "./routers/garage";
 import { userRouter } from "./routers/user";
+import { userVehicleTypeRouter } from "./routers/userVehicleType";
+import { rateRouter } from "./routers/rate";
 
 /**
  * This is the primary router for your server.
@@ -27,6 +29,9 @@ export const appRouter = createTRPCRouter({
   vehicleImage: vehicleImageRouter,
   garage: garageRouter,
   user: userRouter,
+  userVehicleType: userVehicleTypeRouter,
+  rate: rateRouter,
+  
 });
 
 // export type definition of API
