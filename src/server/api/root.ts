@@ -16,6 +16,7 @@ import { adjustmentRouter } from "./routers/adjustment";
 import { rateTypeRouter } from "./routers/rateType";
 import { adjustmentDayRouter } from "./routers/adjustmentDay";
 import { adjustmentRateTypeRouter } from "./routers/adjustmentRateType";
+import { bookingRouter } from "./routers/booking";
 
 /**
  * This is the primary router for your server.
@@ -39,6 +40,7 @@ export const appRouter = createTRPCRouter({
   rateType: rateTypeRouter,
   adjustmentDay: adjustmentDayRouter,
   adjustmentRate: adjustmentRateTypeRouter,
+  booking: bookingRouter,
   
 });
 
