@@ -21,6 +21,7 @@ import { bookingDetailRouter } from "./routers/bookingDetail";
 import { bookingDriverRouter } from "./routers/bookingDriver";
 import { bidRouter } from "./routers/bid";
 import { paymentRouter } from "./routers/payment";
+import { stateRouter } from "./routers/state";
 
 /**
  * This is the primary router for your server.
@@ -49,6 +50,7 @@ export const appRouter = createTRPCRouter({
   bookingDriver: bookingDriverRouter,
   bid: bidRouter,
   payment: paymentRouter,
+  state: stateRouter,
   
 });
 

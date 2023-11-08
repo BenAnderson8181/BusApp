@@ -8,6 +8,7 @@ const prisma = new PrismaClient();
 // import bookingStatus from "./data/bookingStatus";
 // import paymentStatus from "./data/paymentStatus";
 // import day from "./data/day";
+// import state from "./data/state";
 
 async function main() {
     // lvl 1 seeding - no dependencies
@@ -29,6 +30,9 @@ async function main() {
 
     // // day
     // await prisma.day.createMany({ data: day });
+
+    // // state
+    // await prisma.state.createMany({ data: state });
 }
 
 main()

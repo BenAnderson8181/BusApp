@@ -32,7 +32,7 @@ export const garageRouter = createTRPCRouter({
                 name: z.string().min(2).max(100),
                 address: z.string().min(2).max(100),
                 city: z.string().min(2).max(50),
-                state: z.string().min(2).max(2),
+                stateId: z.string(),
                 zip: z.string().min(2).max(15),
                 companyId: z.string(),
                 isActive: z.boolean().default(true)
@@ -91,7 +91,7 @@ export const garageRouter = createTRPCRouter({
                 name: z.string().min(2).max(100),
                 address: z.string().min(2).max(100),
                 city: z.string().min(2).max(50),
-                state: z.string().min(2).max(2),
+                stateId: z.string(),
                 zip: z.string().min(2).max(15),
                 companyId: z.string(),
                 isActive: z.boolean().default(true)

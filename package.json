@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^4.25.7",
+    "@hookform/resolvers": "^3.3.2",
     "@prisma/client": "^5.1.1",
     "@t3-oss/env-nextjs": "^0.7.0",
     "@tanstack/react-query": "^4.32.6",
@@ -23,6 +24,7 @@
     "next": "^13.5.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.48.2",
     "superjson": "^1.13.1",
     "ts-node": "^10.9.1",
     "zod": "^3.22.4"

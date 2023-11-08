@@ -17,7 +17,8 @@ model Company {
     DOT                         String
     address                     String
     city                        String
-    state                       String
+    stateId                     String
+    state                       State           @relation(fields: [stateId], references: [id])
     zip                         String
     country                     String
     email                       String
@@ -40,6 +41,7 @@ model Company {
     updatedAt                   DateTime        @updatedAt
 
     @@index([ELDId])
+    @@index([stateId])
 }
 
 model ELD {
@@ -113,7 +115,8 @@ model Garage {
     name                        String
     address                     String
     city                        String
-    state                       String
+    stateId                     String
+    state                       State           @relation(fields: [stateId], references: [id])
     zip                         String
     vehicles                    Vehicle[]
     companyId                   String
@@ -123,6 +126,7 @@ model Garage {
     updatedAt                   DateTime        @updatedAt
 
     @@index([companyId])
+    @@index([stateId])
 }
 
 model User {
@@ -139,7 +143,8 @@ model User {
     drugTestExpirationMonth     String?
     drugTestExpirationYear      Int?
     licenseNumber               String?
-    state                       String?
+    stateId                     String?
+    state                       State?          @relation(fields: [stateId], references: [id])
     licenseExpirationMonth      String?
     licenseExpirationYear       Int?
     notes                       String?         @db.VarChar(1500)
@@ -152,7 +157,8 @@ model User {
     updatedAt                   DateTime        @updatedAt
 
     @@index([companyId])
-    @@index([userTypeId]) 
+    @@index([userTypeId])
+    @@index([stateId])
 }
 
 model UserType {
@@ -298,11 +304,13 @@ model BookingDetail {
     booking                     Booking         @relation(fields: [bookingId], references: [id])
     startAddress                String
     startCity                   String
-    startState                  String
+    startStateId                String
+    startState                  State           @relation("Start", fields: [startStateId], references: [id])
     startZip                    String
     endAddress                  String
     endCity                     String
-    endState                    String
+    endStateId                  String
+    endState                    State           @relation("End", fields: [endStateId], references: [id])
     endZip                      String
     spotTime                    DateTime
     pickupTime                  DateTime
@@ -313,6 +321,8 @@ model BookingDetail {
     updatedAt                   DateTime        @updatedAt
 
     @@index([bookingId])
+    @@index([startStateId])
+    @@index([endStateId])
 }
 
 model BookingVehicle {
@@ -375,4 +385,17 @@ model PaymentStatus {
     payments                    Payment[]
     createdAt                   DateTime        @default(now())
     updatedAt                   DateTime        @updatedAt
+}
+
+model State {
+    id                          String          @id @default(cuid())
+    name                        String
+    abbreviation                String
+    createdAt                   DateTime        @default(now())
+    updatedAt                   DateTime        @updatedAt
+    companies                   Company[]
+    garages                     Garage[]
+    users                       User[]
+    startDates                  BookingDetail[] @relation("Start")
+    endDates                    BookingDetail[] @relation("End")
 }
