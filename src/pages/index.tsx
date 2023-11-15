@@ -1,19 +1,21 @@
+import { NextPage } from "next";
 import Head from "next/head";
 
-export default function Home() {
-
+const Home: NextPage = (props) => {
   return (
     <>
       <Head>
         <title>Bussing App</title>
-        <meta name="description" content="App to manage operators for busing bids" />
+        <meta name="description" content="App to manage operators for busing quotes" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
+      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#000] to-[#222]">
+        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 text-slate-100">
           Hello from busing app!
         </div>
       </main>
     </>
   );
 }
+
+export default Home;
