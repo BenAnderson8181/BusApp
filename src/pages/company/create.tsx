@@ -11,7 +11,7 @@ import Loading from "~/components/Loading";
 import LoadError from "~/components/LoadError";
 import { AlertInput } from "~/utils/alert";
 
-const accountSchema = z
+const companySchema = z
     .object({
         name: z.string().min(2).max(100),
         DOT: z.string().max(50).or(z.literal('')),
@@ -28,7 +28,7 @@ const accountSchema = z
         ELDId: z.string().optional()
     });
 
-type CompanyFormType = z.infer<typeof accountSchema>;
+type CompanyFormType = z.infer<typeof companySchema>;
 
 const CompanyCreate: NextPage = (props) => {
     console.log(props)
@@ -36,7 +36,7 @@ const CompanyCreate: NextPage = (props) => {
     const { register, handleSubmit, formState: { errors, isSubmitting, isDirty, isValid } } = useForm<CompanyFormType>({
         mode: "all",
         reValidateMode: "onSubmit",
-        resolver: zodResolver(accountSchema),
+        resolver: zodResolver(companySchema),
         defaultValues: {
             name: '',
             DOT: '',

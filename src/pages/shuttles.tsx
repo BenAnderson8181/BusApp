@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import Head from "next/head";
 import Header from "~/components/Header";
 
-const Home: NextPage = (props) => {
+const Shuttles: NextPage = (props) => {
   return (
     <>
       <Head>
@@ -13,11 +13,11 @@ const Home: NextPage = (props) => {
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#333] to-[#000]">
         <Header />
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 text-slate-100">
-          Hello from home page!
+          Hello from shuttles!
         </div>
       </main>
     </>
   );
 }
 
-export default Home;
+export default Shuttles;

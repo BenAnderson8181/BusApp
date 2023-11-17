@@ -8,7 +8,7 @@ import "~/styles/globals.css";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   const { pathname } = useRouter();
-  const isPublicPath = ['/'].includes(pathname);
+  const isPublicPath = ['/', '/about-us', '/blog', '/careers', '/get-quote', '/inc', '/login', '/operators', '/rentals', '/shuttles'].includes(pathname); // also need to set public paths in middleware.ts
 
   return (
     <ClerkProvider appearance={{
