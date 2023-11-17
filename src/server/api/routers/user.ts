@@ -1,10 +1,29 @@
 import { TRPCError } from "@trpc/server";
-import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import z from "zod";
 
 import phoneRegex from "~/utils/phoneValidation";
 
 export const userRouter = createTRPCRouter({
+    findAccountByExternalId: publicProcedure
+        .input(
+            z.object({
+                externalId: z.string()
+            })
+        )
+        .query(async ({ctx, input}) => {
+            const account = await ctx.db.user.findUnique({
+                where: {
+                    externalId: input.externalId
+                },
+                include: {
+                    userType: true
+                }
+            });
+
+            return account;
+        }
+    ),
     findById: protectedProcedure
         .input(
             z.object({
