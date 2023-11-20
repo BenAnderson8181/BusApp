@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import CompanyHeader from "~/components/CompanyHeader";
 
-const Company: NextPage = (props) => {
+const Today: NextPage = (props) => {
     console.log(props);
     
     return (
@@ -22,4 +22,4 @@ const Company: NextPage = (props) => {
     )
 }
 
-export default Company;
+export default Today;

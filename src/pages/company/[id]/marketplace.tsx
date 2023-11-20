@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import CompanyHeader from "~/components/CompanyHeader";
 
-const Company: NextPage = (props) => {
+const Marketplace: NextPage = (props) => {
     console.log(props);
     
     return (
@@ -15,11 +15,11 @@ const Company: NextPage = (props) => {
         <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#333] to-[#000]">
             <CompanyHeader />
             <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 text-slate-100">
-                Today
+                Marketplace
             </div>
         </main>
         </>
     )
 }
 
-export default Company;
+export default Marketplace;
