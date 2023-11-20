@@ -57,7 +57,7 @@ export const garageRouter = createTRPCRouter({
             const garages = await ctx.db.garage.findMany({
                 where: {
                     companyId: input.companyId,
-                    isActive: input.showInActive
+                    isActive: !input.showInActive
                 }
             })
 
