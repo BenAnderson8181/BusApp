@@ -8,7 +8,7 @@ import { RiArrowDownSLine } from "react-icons/ri";
 const CompanyHeader: NextPage = () => {
     const [open, setOpen] = useState(false);
     const router = useRouter();
-    const idValue = router.query.id;
+    const idValue = router.query.id as string;
 
     return (
         <div className="h-24 w-full p-6 flex justify-between bg-black fixed top-0 text-slate-100 text-xl">

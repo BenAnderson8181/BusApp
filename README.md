@@ -26,3 +26,24 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 ## How do I deploy this?
 
 Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+
+# Planetscale - DB commands
+- pscale auth login
+- pscale connect affiliated-court-services dev --port 3309
+
+# NPM commands
+- npm run dev # this runs the app locally
+- npm run build # this builds the app to check for errors, always run this before commiting
+
+# Prisma Commands
+- npx prisma studio # loads prisma db page
+- npx prisma generate #set up client
+- npx prisma db push #pushes schema to db
+- npx prisma db seed # seeds data from the seed.ts file
+
+# GIT
+- git status - Checks changes
+- git add . - Adds all changes to git
+- git commit -m '' - This commits the changes with a message
+- git push - Pushes to github
+- git pull - Pulls latest, please pull before pushing

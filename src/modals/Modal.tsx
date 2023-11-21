@@ -21,7 +21,7 @@ const Modal: React.FC<Props> = ({ children, isOpen, onClose, onRefresh }) => {
         document.body.addEventListener('keydown', closeOnEscapeKey);
 
         return () => document.body.removeEventListener('keydown', closeOnEscapeKey);
-    }, [onClose]);
+    }, [onClose, onRefresh]);
 
     if (!isOpen) {
         return null;

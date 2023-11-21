@@ -12,7 +12,7 @@ export const companyRouter = createTRPCRouter({
             })
         )
         .query(async ({ ctx, input }) => {
-            const account = await ctx.db.company.findUnique({
+            const company = await ctx.db.company.findUnique({
                 where: {
                     id: input.id
                 },
@@ -28,10 +28,10 @@ export const companyRouter = createTRPCRouter({
                 }
             });
 
-            if (!account)
+            if (!company)
                 throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to load account.'});
 
-            return account;
+            return company;
         }
     ),
     create: protectedProcedure

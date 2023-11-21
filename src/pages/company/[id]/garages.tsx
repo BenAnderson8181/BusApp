@@ -15,6 +15,7 @@ import type { Garage } from "@prisma/client";
 
 
 const Garages: NextPage = (props) => {
+    console.log(props);
 
     const[garageId, setGarageId] = useState('');
     const [garageModalIsOpen, setGarageModalIsOpen] = useState(false);
@@ -28,9 +29,9 @@ const Garages: NextPage = (props) => {
         setGarageModalIsOpen(true);
     }
 
-    const refreshGarages = () => {
+    const refreshGarages = async () => {
         console.log('grefresh called')
-        GarageQuery.refetch();
+        await GarageQuery.refetch();
         setGarageId (()=>"");
     }
 
@@ -48,7 +49,6 @@ const Garages: NextPage = (props) => {
 
     const garages = GarageQuery.data;
 
-    const accountId:string = '';
     return (
         <>
         <Head>

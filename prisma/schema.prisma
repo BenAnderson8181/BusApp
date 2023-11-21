@@ -150,8 +150,8 @@ model User {
     notes                       String?         @db.VarChar(1500)
     userVehiclesTypes           UserVehicleType[]
     bookingDrivers              BookingDriver[]
-    companyId                   String
-    company                     Company         @relation(fields: [companyId], references: [id])
+    companyId                   String?
+    company                     Company?        @relation(fields: [companyId], references: [id])
     isActive                    Boolean         @default(true)
     createdAt                   DateTime        @default(now())
     updatedAt                   DateTime        @updatedAt

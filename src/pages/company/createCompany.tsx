@@ -2,7 +2,6 @@ import type { NextPage } from "next";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { api } from "~/utils/api";
@@ -10,6 +9,7 @@ import phoneRegex from "~/utils/phoneValidation";
 import Loading from "~/components/Loading";
 import LoadError from "~/components/LoadError";
 import { AlertInput } from "~/utils/alert";
+import Header from "~/components/Header";
 
 const companySchema = z
     .object({
@@ -54,12 +54,11 @@ const CompanyCreate: NextPage = (props) => {
         }
     });
 
-    const { user } = useUser();
-    console.log(user) // TODO: we need this to authenticate the user
     const router = useRouter();
     const [showErrorAlert, setShowErrorAlert] = useState(false);
 
     const createCompanyMutation = api.company.create.useMutation();
+    const updateUserMutation = api.user.updateCompanyId.useMutation();
     const eldQuery = api.eld.list.useQuery();
     const stateQuery = api.state.list.useQuery();
 
@@ -84,7 +83,24 @@ const CompanyCreate: NextPage = (props) => {
             return;
         });
 
-        if (result?.id) {
+        if (!result?.id) {
+            setShowErrorAlert(true);
+            console.error('No company id found for created company.');
+            return;
+        }
+
+        // We need to save the created company id onto the user account
+        const updateUser = await updateUserMutation.mutateAsync({
+            id: '',
+            companyId: result.id
+        })
+        .catch((err) => {
+            setShowErrorAlert(true);
+            console.error(err);
+            return;
+        });
+
+        if (result?.id && updateUser) {
             console.log('company created')
             //router.push('/company/policies/eSignature').catch((err) => console.error(err)); // Push to the policies process start
         }
@@ -95,11 +111,12 @@ const CompanyCreate: NextPage = (props) => {
     }
 
     return (
-        <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2f0f5b] to-[#6941a2] text-slate-100">
-            <h1 className="text-4xl font-thin mt-5">Create Company</h1>
-            <div className="w-1/2 text-start border border-indigo-700 rounded-sm mt-5">
+        <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#333] to-[#000] text-slate-100">
+            <Header />
+            <h1 className="text-3xl font-thin justify-center flex mb-4 italic">Create Company</h1>
+            <div className="w-3/4 text-start border border-slate-100 rounded-lg">
                 <form onSubmit={handleSubmit(onSubmit)} className="p-6">
-                    <div className="w-full grid grid-cols-2 gap-x-16 gap-y-3">
+                    <div className="w-full grid grid-cols-3 gap-x-16 gap-y-3">
                         <label>
                             <div className="text-2xl font-light">Name:</div>
                             <input
@@ -249,6 +266,7 @@ const CompanyCreate: NextPage = (props) => {
                             </select>
                             <AlertInput type="error">{errors?.stateId?.message}</AlertInput>
                         </label>
+                        <div></div>
                         <div className="flex justify-start mt-8">
                             <button className="px-5 py-2 text-slate-100 bg-red-500 duration-300 hover:opacity-50 rounded-lg cursor-pointer" onClick={onBack}>Back</button>
                             <input

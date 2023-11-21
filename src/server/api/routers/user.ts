@@ -67,7 +67,7 @@ export const userRouter = createTRPCRouter({
                 licenseExpirationMonth: z.string().optional(),
                 licenseExpirationYear: z.number().optional(),
                 notes: z.string().optional(),
-                companyId: z.string()
+                companyId: z.string().optional()
             })
         )
         .mutation(async ({ctx, input}) => {
@@ -186,6 +186,26 @@ export const userRouter = createTRPCRouter({
 
             if (!user)
                 throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to update the user.' });
+
+            return user;
+        }),
+    updateCompanyId: protectedProcedure
+        .input(
+            z.object({
+                id: z.string(),
+                companyId: z.string()
+            })
+        )
+        .mutation(async ({ ctx, input }) => {
+            const user = await ctx.db.user.update({
+                where: { id: input.id },
+                data: {
+                    companyId: input.companyId
+                }
+            });
+
+            if (!user)
+                throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to save the compnay id on the user.' });
 
             return user;
         })

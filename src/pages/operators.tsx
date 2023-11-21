@@ -3,6 +3,8 @@ import Head from "next/head";
 import Header from "~/components/Header";
 
 const Operators: NextPage = (props) => {
+  console.log(props);
+  
   return (
     <>
       <Head>
