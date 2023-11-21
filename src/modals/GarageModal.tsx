@@ -20,7 +20,7 @@ const garageSchema = z
     type GarageFormType = z.infer<typeof garageSchema>;
 
     type Props = {
-            garageId?: string;
+            garageId: string;
             companyId: string;
             onClose: React.Dispatch<React.SetStateAction<boolean>>;
             onRefresh: () => void;
@@ -40,23 +40,18 @@ const Garages = ({ garageId, companyId, onClose, onRefresh}: Props) => {
 
     const createGarageMutation = api.garage.create.useMutation();
     const stateQuery = api.state.list.useQuery();
-    const garageQuery = api.garage.findById.useQuery({id:garageId ?? ''}, {enabled: garageId != null})
+    const garageQuery = api.garage.findById.useQuery({id:garageId ?? ''}, {enabled: garageId.length > 0})
 
-    if (stateQuery.isLoading || garageQuery.isLoading) {
-        return <Loading type='Page' />
+    if (stateQuery.isLoading || (garageId.length > 0 && garageQuery.isLoading)) {
+        return <Loading type='Modal' />
     }
 
     if (stateQuery.isError || garageQuery.isError) {
-        return <LoadError type='Page' />
+        return <LoadError type='Modal' />
     }
 
     const states = stateQuery.data;
     const garage = garageQuery?.data;
-
-    if (garage != null)
-    {
-        console.log('garage loaded', garage)
-    }
 
     const onSubmit = async (garage: GarageFormType) => {
         const result = await createGarageMutation.mutateAsync({
@@ -69,11 +64,9 @@ const Garages = ({ garageId, companyId, onClose, onRefresh}: Props) => {
         });
 
         if (result?.id) {
-            console.log('garage created')
             onRefresh();
             onClose(false);
         } else {
-            console.log('garage not created')
         }
     }
 
@@ -84,9 +77,9 @@ const Garages = ({ garageId, companyId, onClose, onRefresh}: Props) => {
 
     return (
         <>
-            <div className="flex min-h-screen flex-col items-center justify-center bg-white text-slate-600">
-                <h1 className="text-4xl font-thin mt-5">{garageId?`Edit ${garageId}`:"Add"} Garage</h1>
-                <div className="text-start border border-indigo-700 rounded-sm mt-5">
+            <div className="flex flex-col items-center justify-center bg-white text-slate-600">
+                <h1 className="text-4xl font-thin mt-5">{garageId?`Edit`:"Add"} Garage</h1>
+                <div className="text-start border border-slate-700 rounded-sm mt-5">
                     <form onSubmit={handleSubmit(onSubmit)} className="p-6">
                         <div className="w-full grid gap-x-16 gap-y-3">
                             <label>
@@ -132,7 +125,7 @@ const Garages = ({ garageId, companyId, onClose, onRefresh}: Props) => {
                                 >
                                     <option value="-1">-- Please select a state --</option>
                                     {
-                                        states?.map(({id, name}:{id:string, name:string}) => (
+                                        states?.map(({id, name}) => (
                                             <option key={id} value={id}>{name}</option>
                                         ))
                                     }

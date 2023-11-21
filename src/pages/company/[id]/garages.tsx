@@ -30,7 +30,6 @@ const Garages: NextPage = (props) => {
     }
 
     const refreshGarages = async () => {
-        console.log('grefresh called')
         await GarageQuery.refetch();
         setGarageId (()=>"");
     }
@@ -56,20 +55,37 @@ const Garages: NextPage = (props) => {
             <meta name="description" content="App to manage operators for busing quotes" />
             <link rel="icon" href="/favicon.ico" />
         </Head>
-        <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#333] to-[#000]">
+        <main className="flex relative min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#333] to-[#000]">
             <CompanyHeader />
-            <p className="absolute -top-1 right-2 cursor-pointer hover:scale-105 hover:opacity-80">
-                <RiAddBoxFill size='2.5rem' className="text-slate-100" onClick={handleGarageModalAdd}/>
-            </p>
-            <div>
-                {
+            <div className="relative h-auto w-2/3 text-slate-200 text-4xl mb-2">
+                <h1>Garages</h1>
+                <div className="absolute -top-3 right-0 cursor-pointer hover:scale-105 hover:opacity-80">
+                    <RiAddBoxFill size='2.5rem' className="text-slate-300 mt-3" onClick={handleGarageModalAdd}/>
+                </div>
+            </div>
+            <div className="relative p-4 h-auto w-2/3 bg-white">
+                
+                <ul className="max-w divide-y divide-gray-200">
+                    {
                     garages?.map((garage:Garage) => {
-                            return <div key={garage.id}>
-                                <div className=""> {garage.name} </div>
-                                <RiEditBoxFill size='2.5rem' className="cursor-pointer text-slate-100" onClick={() => handleGarageModalUpdate(garage.id)} />
+                        return <li className = "p-3" key={garage.id}>
+                        <div className="flex items-center space-x-4 rtl:space-x-reverse">
+                            <div className="flex-1 min-w-0">
+                                <p className = "text-md font-medium text-gray-900 truncate">
+                                    {garage.name} 
+                                </p>
+                                <p className="text-sm text-gray-500 truncate">
+                                    {`${garage.city} - ${garage.address}`}
+                                </p>
                             </div>
-                        })
+                            <div className = "inline-flex items-center text-base font-semibold text-gray-900">
+                                <RiEditBoxFill size='2.5rem' className="cursor-pointer text-slate-400" onClick={() => handleGarageModalUpdate(garage.id)} />
+                            </div>
+                        </div>
+                        </li>
+                    })
                     }
+                </ul>
             </div>
         </main>
         <Modal

@@ -28,7 +28,6 @@ const Modal: React.FC<Props> = ({ children, isOpen, onClose, onRefresh }) => {
     }
 
     const handleClose = ()=>{
-        console.log("closing modal")
         onClose();
         if (onRefresh != null){
             onRefresh();
@@ -37,8 +36,8 @@ const Modal: React.FC<Props> = ({ children, isOpen, onClose, onRefresh }) => {
 
     return (
         <Portal wrapperId='company-form'>
-            <div className="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-                <div className="relative w-2/3 rounded-md border shadow-lg shadow-purple-900 bg-white flex flex-col justify-center items-center h-fit mt-2">
+            <div className="fixed top-0 left-0 right-0 bottom-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+                <div className="relative w-1/3 pb-10 rounded-md border shadow-lg shadow-slate-600 bg-white flex flex-col justify-center items-center h-fit mt-2">
                     <button className="absolute text-white top-4 right-4" onClick={handleClose}>
                         <RiCloseFill color='black' size='2rem' />
                     </button>
