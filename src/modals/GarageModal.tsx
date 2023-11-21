@@ -77,9 +77,9 @@ const Garages = ({ garageId, companyId, onClose, onRefresh}: Props) => {
 
     return (
         <>
-            <div className="flex flex-col items-center justify-center bg-white text-slate-600">
-                <h1 className="text-4xl font-thin mt-5">{garageId?`Edit`:"Add"} Garage</h1>
-                <div className="text-start border border-slate-700 rounded-sm mt-5">
+            <div className="flex flex-col items-center justify-center text-slate-600">
+                <h1 className="text-4xl font-thin mt-5">{garageId ? "Edit" : "Create"} Garage</h1>
+                <div className="text-start border border-slate-700  bg-slate-100 rounded-sm mt-5">
                     <form onSubmit={handleSubmit(onSubmit)} className="p-6">
                         <div className="w-full grid gap-x-16 gap-y-3">
                             <label>
@@ -147,7 +147,7 @@ const Garages = ({ garageId, companyId, onClose, onRefresh}: Props) => {
                             <div className="flex justify-start mt-8">
                                 <button className={`px-5 py-2 text-slate-100 bg-red-500 duration-300 hover:opacity-50 rounded-lg cursor-pointer`} onClick={onBack}>Cancel</button>
                                 <input
-                                    value="Add"
+                                    value={garageId ? "Save" : "Create"}
                                     type="submit"
                                     disabled={isSubmitting || isDirty || isValid}
                                     className="rounded border border-slate-400 text-slate-400 ml-2 px-5 py-2 duration-300 hover:opacity-50 cursor-pointer"
