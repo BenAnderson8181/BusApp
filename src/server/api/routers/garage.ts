@@ -16,7 +16,8 @@ export const garageRouter = createTRPCRouter({
                 },
                 include: {
                     company: true,
-                    vehicles: true
+                    vehicles: true,
+                    state: true
                 }
             });
 
@@ -58,6 +59,11 @@ export const garageRouter = createTRPCRouter({
                 where: {
                     companyId: input.companyId,
                     isActive: !input.showInActive
+                },
+                include: {
+                    company: true,
+                    vehicles: true,
+                    state: true
                 }
             })
 

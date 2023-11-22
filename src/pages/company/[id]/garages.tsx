@@ -9,10 +9,6 @@ import { api } from "~/utils/api";
 import { RiAddBoxFill, RiEditBoxFill} from "react-icons/ri";
 import GarageModal from "~/modals/GarageModal";
 import Modal from "~/modals/Modal";
-import type { Garage } from "@prisma/client";
-
-
-
 
 const Garages: NextPage = (props) => {
     console.log(props);
@@ -48,6 +44,7 @@ const Garages: NextPage = (props) => {
 
     const garages = GarageQuery.data;
 
+
     return (
         <>
         <Head>
@@ -68,7 +65,7 @@ const Garages: NextPage = (props) => {
                 <div className="px-4 bg-white">    
                     <ul className="max-w divide-y divide-slate-200">
                         {
-                        garages?.map((garage:Garage) => {
+                        garages?.map((garage) => {
                             return <li className = "py-3" key={garage.id}>
                             <div className="flex items-center space-x-4 rtl:space-x-reverse">
                                 <div className="flex-1 min-w-0">
@@ -76,7 +73,7 @@ const Garages: NextPage = (props) => {
                                         {garage.name} 
                                     </p>
                                     <p className="text-sm text-slate-600 truncate">
-                                        {`${garage.city} - ${garage.address}`}
+                                        {`${garage.state.name} - ${garage.city} - ${garage.address}`}
                                     </p>
                                 </div>
                                 <div className = "inline-flex items-center text-base font-semibold text-slate-900">
