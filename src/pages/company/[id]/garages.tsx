@@ -9,13 +9,16 @@ import { api } from "~/utils/api";
 import { RiAddBoxFill, RiEditBoxFill} from "react-icons/ri";
 import GarageModal from "~/modals/GarageModal";
 import Modal from "~/modals/Modal";
+import { useAuthorizePage } from "~/utils/authorize";
 
 const Garages: NextPage = (props) => {
     console.log(props);
 
+    useAuthorizePage();
+
     const[garageId, setGarageId] = useState('');
     const [garageModalIsOpen, setGarageModalIsOpen] = useState(false);
-    
+
     const handleGarageModalAdd = () => {
         setGarageModalIsOpen(true);
     }
@@ -31,9 +34,9 @@ const Garages: NextPage = (props) => {
     }
 
     const router = useRouter();
-    const idValue:string = router.query.id as string;
+    const routeCompanyId:string = router.query.id as string;
 
-    const GarageQuery = api.garage.list.useQuery({companyId:idValue});
+    const GarageQuery = api.garage.list.useQuery({companyId:routeCompanyId});
     if (GarageQuery.isLoading) {
         return <Loading type='Page' />
     }
@@ -43,7 +46,6 @@ const Garages: NextPage = (props) => {
     }
 
     const garages = GarageQuery.data;
-
 
     return (
         <>
@@ -92,7 +94,7 @@ const Garages: NextPage = (props) => {
             onRefresh={() => refreshGarages()}
             isOpen={garageModalIsOpen}
         >
-            <GarageModal garageId={garageId} companyId={idValue} onClose={() => setGarageModalIsOpen(false)} onRefresh={refreshGarages} />
+            <GarageModal garageId={garageId} companyId={routeCompanyId} onClose={() => setGarageModalIsOpen(false)} onRefresh={refreshGarages} />
         </Modal>
         </>
     )
