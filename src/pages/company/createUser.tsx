@@ -89,9 +89,9 @@ const UserCreate: NextPage = (props) => {
         return <LoadError type='Page' />
     }
 
-    const onSubmit = async (user: UserFormType) => {
+    const onSubmit = async (_user: UserFormType) => {
         const result = await createUserMutation.mutateAsync({
-            ...user,
+            ..._user,
             userTypeId,
             externalId: userId,
         })
@@ -106,6 +106,17 @@ const UserCreate: NextPage = (props) => {
         // TODO: add welcome email here
 
         if (result?.id) {
+            // send welcome email
+            await fetch('/api/email/welcome', {
+                method: 'POST',
+                body: JSON.stringify({
+                    firstName: result.firstName,
+                    lastName: result.lastName,
+                    accountId: result?.id,
+                    email: user?.primaryEmailAddress
+                })
+            });
+
             router.push('/company/createCompany').catch((err) => console.error(err));
         }
     }
