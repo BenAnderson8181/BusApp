@@ -17,13 +17,13 @@ const userSchema = z
         firstName: z.string().min(2).max(50),
         lastName: z.string().min(2).max(50),
         email: z.string().email(),
-        isDriver: z.boolean(),
+        isDriver: z.boolean().default(false),
         phone: z.string().optional().refine((value) => phoneRegex.test(value ?? '')),
         drugTestNumber: z.string().optional(),
         drugTestExpirationMonth: z.string().optional(),
         drugTestExpirationYear: z.number().int().optional(),
         licenseNumber: z.string().optional(),
-        stateId: z.string(),
+        stateId: z.string().optional(),
         licenseExpirationMonth: z.string().optional(),
         licenseExpirationYear: z.number().optional(),
         notes: z.string().optional(),
@@ -55,31 +55,29 @@ const UserCreate: NextPage = (props) => {
 
     if (userId.length === 0) {
         console.error('no user found');
-        return <LoadError type='Page' />
+        router.push(`/login`).catch((err) => console.error(err));
     }
 
     const createUserMutation = api.user.create.useMutation();
     const userTypeQuery = api.userType.list.useQuery();
-    const stateQuery = api.state.list.useQuery();
     const userAccountQuery = api.user.findAccountByExternalId.useQuery({ externalId: userId });
 
-    if (userTypeQuery.isLoading || stateQuery.isLoading || userAccountQuery.isLoading) {
+    if (userTypeQuery.isLoading || userAccountQuery.isLoading) {
         return <Loading type='Page' />
     }
 
-    if (userTypeQuery.isError || stateQuery.isError || userAccountQuery.isError) {
+    if (userTypeQuery.isError || userAccountQuery.isError) {
         console.error('failed to load user types');
         return <LoadError type='Page' />
     }
 
-    const userTypeId = userTypeQuery.data.find(t => t.name === 'User')?.id ?? '';
-    const states = stateQuery.data;
+    const userTypeId = userTypeQuery.data.find(t => t.name === 'Customer')?.id ?? '';
     const userAccount = userAccountQuery.data;
 
-    // Check if a user account exists without a company id set and if so skip user account creation and navaigate to create company
+    // Check if a user account exists, if so take them to the get-quote page
     if (userAccount) {
-        if (userAccount.companyId?.length === 0 || userAccount.companyId == null) {
-            router.push(`/customer/${userAccount.id ?? ''}`).catch((err) => console.error(err));
+        if (userAccount.id?.length > 0) {
+            router.push(`/get-quote`).catch((err) => console.error(err));
         }
     }
 
@@ -102,10 +100,17 @@ const UserCreate: NextPage = (props) => {
 
         // TODO: add required policies here        
 
-        // TODO: add welcome email here
-
         if (result?.id) {
-            router.push(`/customer/${result.id}`).catch((err) => console.error(err));
+            await fetch('/api/email/welcomeCustomer', {
+                method: 'POST',
+                body: JSON.stringify({
+                    firstName: result.firstName,
+                    lastName: result.lastName,
+                    email: result?.email
+                })
+            });
+
+            router.push('/get-quote').catch((err) => console.error(err));
         }
     }
 
@@ -160,6 +165,7 @@ const UserCreate: NextPage = (props) => {
                             />
                             <AlertInput type="error">{errors?.phone?.message}</AlertInput>
                         </label>
+                        <div></div>
                         <div className="flex justify-start mt-8">
                             <button className="px-5 py-2 text-slate-100 bg-red-500 duration-300 hover:opacity-50 rounded-lg cursor-pointer" onClick={onBack}>Back</button>
                             <input

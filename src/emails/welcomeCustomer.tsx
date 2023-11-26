@@ -4,44 +4,40 @@ import {
     Head,
     Heading,
     Html,
-    Button,
+    Link,
     Text,
     Tailwind
   } from '@react-email/components';
   import * as React from 'react';
   
   type WelcomeProps = {
-    companyId?: string;
     firstName?: string;
     lastName?: string;
   }
   
-  export const WelcomeEmail = ({
-    companyId = '',
-    firstName = 'John',
-    lastName = 'Doe'
-  }: WelcomeProps) => (
+  export const WelcomeEmail = ({ firstName, lastName }: WelcomeProps) => (
     <Html>
         <Head />
         <Tailwind>
             <Body className="bg-white text-slate-100 my-12 mx-auto font-sans text-lg p-8">
-                <Container className="bg-purple-900 p-8 rounded-lg shadow-black shadow-xl">
+                <Container className="bg-black p-16 rounded-lg w-3/4 text-slate-100">
                     <Heading >Welcome {firstName} {lastName}!</Heading>
                     <Text className='text-lg'>
                         Thank you for signing up with BusApp!<br />
                         We look forward to serving you.
                     </Text>
                     <Text className="text-lg">
-                        Kind regards,<br /> Affiliate Court Services
+                        Kind regards,<br /> Bus App
                     </Text>
+                    <br />
                     <Text className='text-lg italic'>
-                        To get started use the link below to get to the site and onto your company portal.
+                        To get started click the button below to get a quote!
                     </Text>
-                    <Button 
-                        className="py-6 px-4 rounded-md bg-amber-300 font-semibold"
-                        href={`localhost:3000/company/${companyId}`}>
+                    <Link 
+                        className="py-4 px-6 rounded-full bg-black font-semibold cursor-pointer border-2 border-slate-100"
+                        href={`http://localhost:3000/get-quote`}>
                         BusApp
-                    </Button>
+                    </Link>
                 </Container>
             </Body>
         </Tailwind>

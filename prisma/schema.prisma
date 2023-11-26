@@ -131,7 +131,7 @@ model Garage {
 
 model User {
     id                          String          @id @default(cuid())
-    externalId                  String?         @unique
+    externalId                  String          @unique
     firstName                   String
     lastName                    String
     email                       String

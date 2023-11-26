@@ -52,26 +52,26 @@ export const userRouter = createTRPCRouter({
     create: protectedProcedure
         .input(
             z.object({
-                externalId: z.string().optional(),
+                externalId: z.string(),
                 firstName: z.string().min(2).max(50),
                 lastName: z.string().min(2).max(50),
                 email: z.string().email(),
                 userTypeId: z.string(),
-                isDriver: z.boolean(),
+                isDriver: z.boolean().default(false),
                 phone: z.string().optional().refine((value) => phoneRegex.test(value ?? '')),
                 drugTestNumber: z.string().optional(),
                 drugTestExpirationMonth: z.string().optional(),
                 drugTestExpirationYear: z.number().int().optional(),
                 licenseNumber: z.string().optional(),
-                stateId: z.string(),
+                stateId: z.string().optional(),
                 licenseExpirationMonth: z.string().optional(),
                 licenseExpirationYear: z.number().optional(),
                 notes: z.string().optional(),
-                companyId: z.string().optional()
+                companyId: z.string().optional(),
             })
         )
         .mutation(async ({ctx, input}) => {
-            const user = await ctx.db.user.create({data: {...input}});
+            const user = await ctx.db.user.create({data: {...input, isActive: true }});
 
             if (!user.id)
                 throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to create the user.' });

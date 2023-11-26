@@ -1,7 +1,7 @@
 import { Resend } from 'resend';
 import { env } from "~/env.mjs";
 import type { NextApiRequest, NextApiResponse } from 'next';
-import WelcomeEmail from "~/emails/welcome";
+import WelcomeEmail from "~/emails/welcomeCompany";
 
 const resend = new Resend(env.RESEND_API_KEY);
 
@@ -17,7 +17,7 @@ export default async function POST(request: NextApiRequest, response: NextApiRes
 
     // let emailProps;
     if (request) {
-        console.log('HELLO FROM WELCOME')
+        console.log('HELLO FROM WELCOME COMPANY')
         console.log('body: ', request.body)
         console.log('query: ', request.query)
     }

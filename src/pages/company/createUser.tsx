@@ -103,8 +103,6 @@ const UserCreate: NextPage = (props) => {
 
         // TODO: add required policies here        
 
-        // TODO: add welcome email here
-
         if (result?.id) {
             // send welcome email
             await fetch('/api/email/welcome', {

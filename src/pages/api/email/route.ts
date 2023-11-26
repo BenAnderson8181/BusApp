@@ -1,14 +1,14 @@
 import { Resend } from 'resend';
 import { env } from "~/env.mjs";
 import type { NextApiRequest, NextApiResponse } from 'next';
-import WelcomeEmail from "~/emails/welcome";
+import CompanyWelcomeEmail from "~/emails/welcomeCompany";
 
 const resend = new Resend(env.RESEND_API_KEY);
 
 // change this back to POST when done testing
 export default async function GET(request: NextApiRequest, response: NextApiResponse) {
     const email = 'banderson@affiliatedcourtservices.com';
-    const params = { type: 'Cancelled', firstName: 'Ben', lastName: 'Anderson' , companyId: '', appointmentDate: new Date(), time: '12:00', appointmentType: 'Group', comment: 'Lame comment', requirements: [] }
+    const params = { type: 'Welcome Company', firstName: 'Ben', lastName: 'Anderson' , companyId: '' }
 
     if (request) {
         console.log('HELLO FROM ROUTE')
@@ -22,12 +22,12 @@ export default async function GET(request: NextApiRequest, response: NextApiResp
             throw new Error('Email address is invalid');
 
         switch (params.type) {
-            case 'Welcome':
+            case 'Welcome Company':
                 const { data, error } = await resend.emails.send({
                     from: 'onboarding@resend.dev',
                     to: email,
                     subject: 'Welcome to ACS',
-                    react: WelcomeEmail({
+                    react: CompanyWelcomeEmail({
                         firstName: params?.firstName,
                         lastName: params?.lastName,
                         companyId: params?.companyId
