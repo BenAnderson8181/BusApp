@@ -86,9 +86,9 @@ const UserCreate: NextPage = (props) => {
         return <LoadError type='Page' />
     }
 
-    const onSubmit = async (user: UserFormType) => {
+    const onSubmit = async (_user: UserFormType) => {
         const result = await createUserMutation.mutateAsync({
-            ...user,
+            ..._user,
             userTypeId,
             externalId: userId,
         })

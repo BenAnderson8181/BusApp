@@ -17,13 +17,13 @@ const userSchema = z
         firstName: z.string().min(2).max(50),
         lastName: z.string().min(2).max(50),
         email: z.string().email(),
-        isDriver: z.boolean(),
+        isDriver: z.boolean().default(false),
         phone: z.string().optional().refine((value) => phoneRegex.test(value ?? '')),
         drugTestNumber: z.string().optional(),
         drugTestExpirationMonth: z.string().optional(),
         drugTestExpirationYear: z.number().int().optional(),
         licenseNumber: z.string().optional(),
-        stateId: z.string(),
+        stateId: z.string().optional(),
         licenseExpirationMonth: z.string().optional(),
         licenseExpirationYear: z.number().optional(),
         notes: z.string().optional(),
@@ -73,7 +73,7 @@ const UserCreate: NextPage = (props) => {
         return <LoadError type='Page' />
     }
 
-    const userTypeId = userTypeQuery.data.find(t => t.name === 'User')?.id ?? '';
+    const userTypeId = userTypeQuery.data.find(t => t.name === 'Admin')?.id ?? '';
     const states = stateQuery.data;
     const userAccount = userAccountQuery.data;
 
@@ -90,8 +90,10 @@ const UserCreate: NextPage = (props) => {
     }
 
     const onSubmit = async (_user: UserFormType) => {
+        console.log('yippee')
         const result = await createUserMutation.mutateAsync({
             ..._user,
+            isDriver,
             userTypeId,
             externalId: userId,
         })
@@ -104,16 +106,16 @@ const UserCreate: NextPage = (props) => {
         // TODO: add required policies here        
 
         if (result?.id) {
-            // send welcome email
-            await fetch('/api/email/welcome', {
-                method: 'POST',
-                body: JSON.stringify({
-                    firstName: result.firstName,
-                    lastName: result.lastName,
-                    accountId: result?.id,
-                    email: user?.primaryEmailAddress
-                })
-            });
+            // // send welcome email
+            // await fetch('/api/email/welcome', {
+            //     method: 'POST',
+            //     body: JSON.stringify({
+            //         firstName: result.firstName,
+            //         lastName: result.lastName,
+            //         accountId: result?.id,
+            //         email: user?.primaryEmailAddress
+            //     })
+            // });
 
             router.push('/company/createCompany').catch((err) => console.error(err));
         }
@@ -127,7 +129,7 @@ const UserCreate: NextPage = (props) => {
         <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#333] to-[#000] text-slate-100">
             <Header />
             <h1 className="text-3xl font-thin justify-center flex mb-4 italic">Create User</h1>
-            <div className="w-3/4 text-start border border-slate-100 rounded-lg">
+            <div className="w-4/5 text-start border border-slate-100 rounded-lg">
                 <form onSubmit={handleSubmit(onSubmit)} className="p-6">
                     <div className="w-full grid grid-cols-3 gap-x-16 gap-y-3">
                         <label>
@@ -194,7 +196,7 @@ const UserCreate: NextPage = (props) => {
                         {
                             isDriver &&
                             <label>
-                                <div className="text-2xl font-light">Drug Test Expiration Month:</div>
+                                <div className="text-2xl font-light">Drug Test Exp. Month:</div>
                                 <select
                                     className="rounded-md border w-full border-slate-400 text-slate-700 py-0 px-2 text-xl"
                                     {...register("drugTestExpirationMonth")}
@@ -219,7 +221,7 @@ const UserCreate: NextPage = (props) => {
                         {
                             isDriver &&
                             <label>
-                                <div className="text-2xl font-light">Drug Test Expiration Year:</div>
+                                <div className="text-2xl font-light">Drug Test Exp. Year:</div>
                                 <select
                                     className="rounded-md border w-full border-slate-400 text-slate-700 py-0 px-2 text-xl"
                                     {...register("drugTestExpirationYear")}
@@ -249,28 +251,11 @@ const UserCreate: NextPage = (props) => {
                             />
                         </label>
                         }
+                        
                         {
                             isDriver &&
                             <label>
-                                <div className="text-2xl font-light">State:</div>
-                                <select
-                                    className="rounded-md border w-full border-slate-400 text-slate-700 py-0 px-2 text-xl"
-                                    {...register("stateId")}
-                                    aria-invalid={Boolean(errors.stateId)}
-                                >
-                                    <option value="-1">-- Please select a state --</option>
-                                    {
-                                        states?.map(({id, name}) => (
-                                            <option key={id} value={id}>{name}</option>
-                                        ))
-                                    }
-                                </select>
-                            </label>
-                        }
-                        {
-                            isDriver &&
-                            <label>
-                                <div className="text-2xl font-light">License Expiration Month:</div>
+                                <div className="text-2xl font-light">License Exp. Month:</div>
                                 <select
                                     className="rounded-md border w-full border-slate-400 text-slate-700 py-0 px-2 text-xl"
                                     {...register("licenseExpirationMonth")}
@@ -295,7 +280,7 @@ const UserCreate: NextPage = (props) => {
                         {
                             isDriver &&
                             <label>
-                                <div className="text-2xl font-light">License Expiration Year:</div>
+                                <div className="text-2xl font-light">License Exp. Year:</div>
                                 <select
                                     className="rounded-md border w-full border-slate-400 text-slate-700 py-0 px-2 text-xl"
                                     {...register("licenseExpirationYear")}
@@ -316,10 +301,29 @@ const UserCreate: NextPage = (props) => {
                         {
                             isDriver &&
                             <label>
+                                <div className="text-2xl font-light">State:</div>
+                                <select
+                                    className="rounded-md border w-full border-slate-400 text-slate-700 py-0 px-2 text-xl"
+                                    {...register("stateId")}
+                                    aria-invalid={Boolean(errors.stateId)}
+                                >
+                                    <option value="-1">-- Please select a state --</option>
+                                    {
+                                        states?.map(({id, name}) => (
+                                            <option key={id} value={id}>{name}</option>
+                                        ))
+                                    }
+                                </select>
+                            </label>
+                        }
+                        {
+                            isDriver &&
+                            <label className="h-24 w-80">
                                 <div className="text-2xl font-light">Notes:</div>
                                 <textarea
+                                    rows={4}
                                     placeholder="Message"
-                                    className="rounded-md border w-full border-slate-400 text-slate-700 py-0 px-2 text-xl"
+                                    className="block rounded-md border w-full border-slate-400 text-slate-700 py-0 px-2 text-xl min-h-full"
                                     {...register("notes")}
                                     aria-invalid={Boolean(errors.notes)}
                                 />
@@ -330,7 +334,7 @@ const UserCreate: NextPage = (props) => {
                         {
                             isDriver && <div></div>
                         }
-                        <div className="flex justify-start mt-8">
+                        <div className="flex justify-start mt-20">
                             <button className="px-5 py-2 text-slate-100 bg-red-500 duration-300 hover:opacity-50 rounded-lg cursor-pointer" onClick={onBack}>Back</button>
                             <input
                                 type="submit"

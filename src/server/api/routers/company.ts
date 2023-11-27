@@ -47,8 +47,8 @@ export const companyRouter = createTRPCRouter({
                 email: z.string().email(),
                 website: z.string().url().optional().or(z.literal('')),
                 companyPhone: z.string().refine((value) => phoneRegex.test(value)),
-                dispatchPhone: z.string().optional().refine((value) => phoneRegex.test(value ?? '')),
-                mobilePhone: z.string().optional().refine((value) => phoneRegex.test(value ?? '')),
+                dispatchPhone: z.union([z.string(), z.string().refine((value) => phoneRegex.test(value ?? ''))]).optional(),
+                mobilePhone: z.union([z.string(), z.string().refine((value) => phoneRegex.test(value ?? ''))]).optional(),
                 ELDId: z.string().optional()
             })
         )
