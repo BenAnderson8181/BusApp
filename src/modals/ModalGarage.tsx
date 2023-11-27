@@ -78,7 +78,7 @@ const Garages = ({ garageId, companyId, onClose, onRefresh}: Props) => {
     return (
         <>
             <div className="flex flex-col items-center justify-center text-slate-600">
-                <h1 className="text-4xl font-thin mt-5">{garageId ? "Edit" : "Create"} Garage</h1>
+                <h1 className="text-4xl font-thin mt-5">{garageId ? "Edit" : "New"} Garage</h1>
                 <div className="text-start border border-slate-700  bg-slate-100 rounded-sm mt-5">
                     <form onSubmit={handleSubmit(onSubmit)} className="p-6">
                         <div className="w-full grid gap-x-16 gap-y-3">

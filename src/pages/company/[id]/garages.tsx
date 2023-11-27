@@ -7,9 +7,10 @@ import Loading from "~/components/Loading";
 import LoadError from "~/components/LoadError";
 import { api } from "~/utils/api";
 import { RiAddBoxFill, RiEditBoxFill} from "react-icons/ri";
-import GarageModal from "~/modals/GarageModal";
+import GarageModal from "~/modals/ModalGarage";
 import Modal from "~/modals/Modal";
 import { useAuthorizePage } from "~/utils/authorize";
+import siteName from "~/utils/siteName";
 
 const Garages: NextPage = (props) => {
     console.log(props);
@@ -50,7 +51,7 @@ const Garages: NextPage = (props) => {
     return (
         <>
         <Head>
-            <title>Bussing App</title>
+            <title>{siteName}</title>
             <meta name="description" content="App to manage operators for busing quotes" />
             <link rel="icon" href="/favicon.ico" />
         </Head>
@@ -61,10 +62,10 @@ const Garages: NextPage = (props) => {
                 <div className="relative text-slate-200 text-4xl mb-2">
                     <h1>Garages</h1>
                     <div className="absolute -top-3 right-0 cursor-pointer hover:scale-105 hover:opacity-80">
-                        <RiAddBoxFill size='2.5rem' className="text-slate-300 mt-3" onClick={handleGarageModalAdd}/>
+                        <RiAddBoxFill size='3rem' className="text-slate-300 mt-3" onClick={handleGarageModalAdd}/>
                     </div>
                 </div>
-                <div className="px-4 bg-white">    
+                <div className="px-4 bg-white rounded-lg">    
                     <ul className="max-w divide-y divide-slate-200">
                         {
                         garages?.map((garage) => {

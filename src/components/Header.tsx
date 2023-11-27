@@ -10,7 +10,7 @@ const Header: NextPage = () => {
     return (
         <div className="h-24 w-full p-6 flex justify-between bg-black fixed top-0 text-slate-100 text-xl">
             <div className="flex justify-start pl-12">
-                <Link href="/" className="text-2xl font-thin" passHref>busApp</Link>
+                <Link href="/" className="text-2xl font-thin" passHref>Go Florida Charter</Link>
             </div>
             <div className="flex justify-evenly w-1/2 translate-y-2">
                 <Link href="/rentals" passHref>Charter Bus Rentals</Link>
