@@ -119,7 +119,18 @@ const CompanyCreate: NextPage = (props) => {
         });
 
         if (updateUser) {
-            console.log('company created')
+            // send welcome email
+            await fetch('/api/email/welcomeCompany', {
+                method: 'POST',
+                body: JSON.stringify({
+                    firstName: updateUser.firstName,
+                    lastName: updateUser.lastName,
+                    companyId: result?.id,
+                    companyName: company.name,
+                    email: updateUser.email
+                })
+            });
+
             router.push(`/company/${result.id}`).catch((err) => console.error(err)); // Have this changed out to the policies page once we get those added
             //router.push('/company/policies/eSignature').catch((err) => console.error(err)); // Push to the policies process start
         }

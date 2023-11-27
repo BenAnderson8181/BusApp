@@ -4,44 +4,42 @@ import {
     Head,
     Heading,
     Html,
-    Button,
     Text,
-    Tailwind
+    Tailwind,
+    Link
   } from '@react-email/components';
   import * as React from 'react';
   
   type WelcomeProps = {
-    companyId?: string;
-    firstName?: string;
-    lastName?: string;
+    companyId: string;
+    firstName: string;
+    lastName: string;
+    companyName: string;
   }
   
-  export const WelcomeEmail = ({
-    companyId = '',
-    firstName = 'John',
-    lastName = 'Doe'
-  }: WelcomeProps) => (
+  export const WelcomeEmail = ({ companyId, firstName, lastName, companyName}: WelcomeProps) => (
     <Html>
         <Head />
         <Tailwind>
             <Body className="bg-white text-slate-100 my-12 mx-auto font-sans text-lg p-8">
-                <Container className="bg-black p-8 rounded-lg shadow-black shadow-xl">
+                <Container className="bg-black p-16 rounded-lg w-3/4 text-slate-100">
                     <Heading >Welcome {firstName} {lastName}!</Heading>
                     <Text className='text-lg'>
-                        Thank you for signing up with BusApp!<br />
-                        We look forward to serving you.
+                        Thank you for signing up with Go Florida Charter!<br />
+                        We look forward to serving you and your company, {companyName}&apos;s needs.
                     </Text>
                     <Text className="text-lg">
-                        Kind regards,<br /> Bus App
+                        Kind regards,<br /> Go Florida Charter
                     </Text>
+                    <br />
                     <Text className='text-lg italic'>
-                        To get started use the link below to get to the site and onto your dashboard.
+                        To get started click the link below to go to your company dashboard!
                     </Text>
-                    <Button 
-                        className="py-6 px-4 rounded-md bg-amber-300 font-semibold"
-                        href={`localhost:3000/company/${companyId}`}>
-                        BusApp
-                    </Button>
+                    <Link 
+                        className="py-4 px-6 rounded-full bg-black font-semibold cursor-pointer border-2 border-slate-100"
+                        href={`http://localhost:3000/company/${companyId}`}>
+                        Go Florida Charter
+                    </Link>
                 </Container>
             </Body>
         </Tailwind>

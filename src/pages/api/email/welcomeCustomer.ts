@@ -15,7 +15,6 @@ export default async function POST(request: NextApiRequest, response: NextApiRes
     const params = { email: 'banderson@affiliatedcourtservices.org' }
 
     try {
-        
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-argument
         const { firstName, lastName, email }: WelcomeEmailProps = JSON.parse(request.body);
 
@@ -28,7 +27,7 @@ export default async function POST(request: NextApiRequest, response: NextApiRes
             });
     
             if (error) {
-                console.log('Error: ', error)
+                console.error('Error: ', error)
                 return response.status(400).json({ error });
             }
     

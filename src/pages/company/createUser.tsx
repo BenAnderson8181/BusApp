@@ -106,17 +106,6 @@ const UserCreate: NextPage = (props) => {
         // TODO: add required policies here        
 
         if (result?.id) {
-            // // send welcome email
-            // await fetch('/api/email/welcome', {
-            //     method: 'POST',
-            //     body: JSON.stringify({
-            //         firstName: result.firstName,
-            //         lastName: result.lastName,
-            //         accountId: result?.id,
-            //         email: user?.primaryEmailAddress
-            //     })
-            // });
-
             router.push('/company/createCompany').catch((err) => console.error(err));
         }
     }
