@@ -10,7 +10,7 @@ import { RiAddBoxFill, RiEditBoxFill} from "react-icons/ri";
 import GarageModal from "~/modals/ModalGarage";
 import Modal from "~/modals/Modal";
 import { useAuthorizePage } from "~/utils/authorize";
-import siteName from "~/utils/siteName";
+import siteName from "~/utils/siteBranding";
 
 const Garages: NextPage = (props) => {
     console.log(props);

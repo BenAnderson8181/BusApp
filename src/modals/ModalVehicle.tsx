@@ -93,6 +93,8 @@ const Vehicles = ({ vehicleId: vehicleId, companyId, onClose, onRefresh}: Props)
     console.log("isDirty",isDirty);
     console.log("isSubmitting",isSubmitting);
     console.log("isValid",isValid);
+    console.log("Form Disabled?",(isSubmitting || !isDirty || !isValid));
+    console.log("register",vehicle)
     return (
         <>
             <div className="flex flex-col items-center justify-center text-slate-600">
@@ -229,77 +231,77 @@ const Vehicles = ({ vehicleId: vehicleId, companyId, onClose, onRefresh}: Props)
                                         defaultChecked={vehicle?.wifi ?? false}
                                         {...register("wifi")} />
                                     <label className="inline-block text-2xl font-light">Wifi</label>
-                                    <AlertInput type="error">{errors?.garageId?.message}</AlertInput>
+                                    <AlertInput type="error">{errors?.wifi?.message}</AlertInput>
                                 </div>
                                 <div className="block w-full">
                                     <input
                                         type="checkbox"
-                                        title="Wifi"
+                                        title="Bathroom"
                                         className="relative float-left h-8 w-8 rounded-full shadow border border-slate-400 text-slate-700 py-0 px-2 text-xl"
-                                        defaultChecked={vehicle?.wifi ?? false}
-                                        {...register("wifi")} />
+                                        defaultChecked={vehicle?.bathroom ?? false}
+                                        {...register("bathroom")} />
                                     <label className="inline-block text-2xl font-light">Bathroom</label>
-                                    <AlertInput type="error">{errors?.garageId?.message}</AlertInput>
+                                    <AlertInput type="error">{errors?.bathroom?.message}</AlertInput>
                                 </div>
                                 <div className="block w-full">
                                     <input
                                         type="checkbox"
-                                        title="Wifi"
+                                        title="ADA Compliant"
                                         className="relative float-left h-8 w-8 rounded-full shadow border border-slate-400 text-slate-700 py-0 px-2 text-xl"
-                                        defaultChecked={vehicle?.wifi ?? false}
-                                        {...register("wifi")} />
+                                        defaultChecked={vehicle?.ADACompliant ?? false}
+                                        {...register("ADACompliant")} />
                                     <label className="inline-block text-2xl font-light">ADA Compliant</label>
-                                    <AlertInput type="error">{errors?.garageId?.message}</AlertInput>
+                                    <AlertInput type="error">{errors?.ADACompliant?.message}</AlertInput>
                                 </div>
                                 <div className="block w-full">
                                     <input
                                         type="checkbox"
-                                        title="Wifi"
+                                        title="Alcohol Allowed"
                                         className="relative float-left h-8 w-8 rounded-full shadow border border-slate-400 text-slate-700 py-0 px-2 text-xl"
-                                        defaultChecked={vehicle?.wifi ?? false}
-                                        {...register("wifi")} />
+                                        defaultChecked={vehicle?.alcoholAllowed ?? false}
+                                        {...register("alcoholAllowed")} />
                                     <label className="inline-block text-2xl font-light">Alcohol Allowed</label>
-                                    <AlertInput type="error">{errors?.garageId?.message}</AlertInput>
+                                    <AlertInput type="error">{errors?.alcoholAllowed?.message}</AlertInput>
                                 </div>
                                 <div className="block w-full">
                                     <input
                                         type="checkbox"
-                                        title="Wifi"
+                                        title="Luggage"
                                         className="relative float-left h-8 w-8 rounded-full shadow border border-slate-400 text-slate-700 py-0 px-2 text-xl"
                                         defaultChecked={vehicle?.wifi ?? false}
-                                        {...register("wifi")} />
+                                        {...register("luggage")} />
                                     <label className="inline-block text-2xl font-light">Luggage Space</label>
-                                    <AlertInput type="error">{errors?.garageId?.message}</AlertInput>
+                                    <AlertInput type="error">{errors?.luggage?.message}</AlertInput>
                                 </div>
                                 <div className="block w-full">
                                     <input
                                         type="checkbox"
-                                        title="Wifi"
+                                        title="Seatbelts"
                                         className="relative float-left h-8 w-8 rounded-full shadow border border-slate-400 text-slate-700 py-0 px-2 text-xl"
-                                        defaultChecked={vehicle?.wifi ?? false}
-                                        {...register("wifi")} />
+                                        defaultChecked={vehicle?.seatBelts ?? false}
+                                        {...register("seatBelts")} />
                                     <label className="inline-block text-2xl font-light">Seatbelts</label>
-                                    <AlertInput type="error">{errors?.garageId?.message}</AlertInput>
+                                    <AlertInput type="error">{errors?.seatBelts?.message}</AlertInput>
                                 </div>
                                 <div className="block w-full">
                                     <input
                                         type="checkbox"
-                                        title="Wifi"
+                                        title="TV Screens"
                                         className="relative float-left h-8 w-8 rounded-full shadow border border-slate-400 text-slate-700 py-0 px-2 text-xl"
-                                        defaultChecked={vehicle?.wifi ?? false}
-                                        {...register("wifi")} />
+                                        defaultChecked={vehicle?.TVScreens ?? false}
+                                        {...register("TVScreens")} />
                                     <label className="inline-block text-2xl font-light">TV Screens</label>
-                                    <AlertInput type="error">{errors?.garageId?.message}</AlertInput>
+                                    <AlertInput type="error">{errors?.TVScreens?.message}</AlertInput>
                                 </div>
                                 <div className="block w-full">
                                     <input
                                         type="checkbox"
-                                        title="Wifi"
+                                        title="Leather Seats"
                                         className="relative float-left h-8 w-8 rounded-full shadow border border-slate-400 text-slate-700 py-0 px-2 text-xl"
-                                        defaultChecked={vehicle?.wifi ?? false}
-                                        {...register("wifi")} />
+                                        defaultChecked={vehicle?.leatherSeats ?? false}
+                                        {...register("leatherSeats")} />
                                     <label className="inline-block text-2xl font-light">Leather Seats</label>
-                                    <AlertInput type="error">{errors?.garageId?.message}</AlertInput>
+                                    <AlertInput type="error">{errors?.leatherSeats?.message}</AlertInput>
                                 </div>
                                 <div className="flex justify-end mt-8">
                                     <input
@@ -310,7 +312,7 @@ const Vehicles = ({ vehicleId: vehicleId, companyId, onClose, onRefresh}: Props)
                                     <input
                                         value={vehicleId ? "Save" : "Create"}
                                         type="submit"
-                                        disabled={isSubmitting || isDirty || isValid}
+                                        disabled={isSubmitting || !isDirty || !isValid}
                                         className="rounded border border-slate-400 text-slate-400 ml-2 px-5 py-2 duration-300 hover:opacity-50 cursor-pointer"
                                     />
                                 </div>

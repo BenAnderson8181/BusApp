@@ -39,6 +39,7 @@ const Garages = ({ garageId, companyId, onClose, onRefresh}: Props) => {
     const [showErrorAlert, setShowErrorAlert] = useState(false);
 
     const createGarageMutation = api.garage.create.useMutation();
+    const updateGarageMutation = api.garage.update.useMutation();
     const stateQuery = api.state.list.useQuery();
     const garageQuery = api.garage.findById.useQuery({id:garageId ?? ''}, {enabled: garageId.length > 0})
 
@@ -54,19 +55,36 @@ const Garages = ({ garageId, companyId, onClose, onRefresh}: Props) => {
     const garage = garageQuery?.data;
 
     const onSubmit = async (garage: GarageFormType) => {
-        const result = await createGarageMutation.mutateAsync({
-            ...garage
-        })
-        .catch((err) => {
-            setShowErrorAlert(true);
-            console.error(err);
-            return;
-        });
 
-        if (result?.id) {
-            onRefresh();
-            onClose(false);
+        if (garageId === "")
+        {
+            const result = await createGarageMutation.mutateAsync({
+                ...garage
+            })
+            .catch((err) => {
+                setShowErrorAlert(true);
+                console.error(err);
+                return;
+            });
+
+            if (result?.id) {
+                onRefresh();
+                onClose(false);
+            }
         } else {
+            const result = await updateGarageMutation.mutateAsync({
+                id:garageId, ...garage
+            })
+            .catch((err) => {
+                setShowErrorAlert(true);
+                console.error(err);
+                return;
+            });
+
+            if (result?.id) {
+                onRefresh();
+                onClose(false);
+            }
         }
     }
 
@@ -74,6 +92,8 @@ const Garages = ({ garageId, companyId, onClose, onRefresh}: Props) => {
         onRefresh();
         onClose(false);
     }
+
+    console.log("Form Disabled?",(isSubmitting || !isDirty || !isValid));
 
     return (
         <>
@@ -149,7 +169,7 @@ const Garages = ({ garageId, companyId, onClose, onRefresh}: Props) => {
                                 <input
                                     value={garageId ? "Save" : "Create"}
                                     type="submit"
-                                    disabled={isSubmitting || isDirty || isValid}
+                                    disabled={isSubmitting || !isDirty || !isValid}
                                     className="rounded border border-slate-400 text-slate-400 ml-2 px-5 py-2 duration-300 hover:opacity-50 cursor-pointer"
                                 />
                             </div>
