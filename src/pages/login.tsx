@@ -7,6 +7,7 @@ import { useUser } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 import Loading from "~/components/Loading";
 import LoadError from "~/components/LoadError";
+import policy from "prisma/data/policy";
  
 const Login: NextPage = (props) => {
     console.log(props);
@@ -18,22 +19,44 @@ const Login: NextPage = (props) => {
 
     // this needs to look for an exisiting account and if found redirect them to their account page
     const userQuery = api.user.findAccountByExternalId.useQuery({ externalId: userId });
+    const policyQuery = api.policy.list.useQuery();
+    const userPolicyQuery = api.userPolicy.list.useQuery({ externalId: userId });
 
-    if (userQuery.isLoading) {
+    if (userQuery.isLoading || userPolicyQuery.isLoading || policyQuery.isLoading) {
         return <Loading type='Page' />
     }
 
-    if (userQuery.isError) {
+    if (userQuery.isError || userPolicyQuery.isError || policyQuery.isError) {
         return <LoadError type='Page' />
     }
 
     const _user = userQuery.data;
     const userType = _user?.userType?.name === 'Customer' ? 'customer' : 'company';
+    const userPolicies = userPolicyQuery.data;
+    const eSignaturePolicy = policyQuery.data?.find(p => p.title === 'E-Signature Consent');
+    const eSignatureConsentPolicy = userPolicies.find(p => p.policyId === eSignaturePolicy?.id);
+    const informedConsentPolicy = policyQuery.data?.find(p => p.title === 'Informed Consent');
+    const userInformedConsentPolicy = userPolicies.find(p => p.policyId === informedConsentPolicy?.id);
+    const consumerAgreementPolicy = policyQuery.data?.find(p => p.title === 'Consumer Agreement');
+    const userConsumerAgreementPolicy = userPolicies.find(p => p.policyId === consumerAgreementPolicy?.id);
+    const paymenrAgreementPolicy = policyQuery.data?.find(p => p.title === 'Payment Agreement');
+    const userPaymentAgreementPolicy = userPolicies.find(p => p.policyId === paymenrAgreementPolicy?.id);
 
     // if type is customer and they have an account then take them to the get-quote page
     if (userType === 'customer') {
         if (_user?.id) {
-            router.push(`/get-quote`).catch((err) => console.error(err));
+            if (!eSignatureConsentPolicy) {
+                router.push('/customer/policies/eSignature').catch((err) => console.error(err));
+            }
+            else if (!userConsumerAgreementPolicy) {
+                router.push('/customer/policies/consumerAgreement').catch((err) => console.error(err));
+            }
+            else if (!userPaymentAgreementPolicy) {
+                router.push('/customer/policies/paymentAgreement').catch((err) => console.error(err));
+            }
+            else {
+                router.push(`/get-quote`).catch((err) => console.error(err));
+            }
         }
     }
 
@@ -41,8 +64,15 @@ const Login: NextPage = (props) => {
     if (_user?.id != null && userType !== 'customer') {
         // if they have a company id redirect them to the company dashboard
         if (_user.companyId) {
-            router.push(`/${userType}/${_user?.companyId}`).catch((err) => console.error(err));
-            return;
+            if (!eSignatureConsentPolicy) {
+                router.push('/company/policies/eSignature').catch((err) => console.error(err));
+            }
+            else if (!userInformedConsentPolicy) {
+                router.push('/company/policies/eSignature').catch((err) => console.error(err));
+            }
+            else {
+                router.push(`/${userType}/${_user?.companyId}`).catch((err) => console.error(err));
+            }
         }
         else {
             // if no company if but we have an account then take them to the company create page

@@ -153,6 +153,8 @@ model User {
     companyId                   String?
     company                     Company?        @relation(fields: [companyId], references: [id])
     isActive                    Boolean         @default(true)
+    userPolicies                UserPolicy[]
+    userSignature               UserSignature[]
     createdAt                   DateTime        @default(now())
     updatedAt                   DateTime        @updatedAt
 
@@ -165,6 +167,7 @@ model UserType {
     id                          String          @id @default(cuid())
     name                        String
     users                       User[]
+    requiredPolicies            RequiredPolicy[]
     createdAt                   DateTime        @default(now())
     updatedAt                   DateTime        @updatedAt
 }
@@ -398,4 +401,52 @@ model State {
     users                       User[]
     startDates                  BookingDetail[] @relation("Start")
     endDates                    BookingDetail[] @relation("End")
+}
+
+model Policy {
+    id                  String          @id @default(cuid())
+    title               String
+    userPolicies        UserPolicy[]
+    requiredPolicies    RequiredPolicy[]
+    createdAt           DateTime        @default(now())
+    updatedAt           DateTime        @updatedAt
+}
+
+model UserPolicy {
+    id              String          @id @default(cuid())
+    userId          String
+    user            User?           @relation(fields: [userId], references: [id])
+    policyId        String?
+    policy          Policy?         @relation(fields: [policyId], references: [id])
+    signed          Boolean         @default(false)
+    rejected        Boolean         @default(false)
+    createdAt       DateTime        @default(now())
+    updatedAt       DateTime        @updatedAt
+
+    @@index([userId])
+    @@index([policyId])
+}
+
+model RequiredPolicy {
+    id              String          @id @default(cuid())
+    policyId        String
+    policy          Policy          @relation(fields: [policyId], references: [id])
+    userTypeId      String
+    userType        UserType        @relation(fields: [userTypeId], references: [id])
+    createdAt       DateTime        @default(now())
+    updatedAt       DateTime        @updatedAt
+
+    @@index([policyId])
+    @@index([userTypeId])
+}
+
+model UserSignature {
+    id              String          @id @default(cuid())
+    userId          String          @unique
+    user            User            @relation(fields: [userId], references: [id])
+    signature       String          @db.Text
+    createdAt       DateTime        @default(now())
+    updatedAt       DateTime        @updatedAt
+
+    @@index([userId])
 }

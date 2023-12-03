@@ -90,7 +90,6 @@ const UserCreate: NextPage = (props) => {
     }
 
     const onSubmit = async (_user: UserFormType) => {
-        console.log('yippee')
         const result = await createUserMutation.mutateAsync({
             ..._user,
             isDriver,
@@ -101,9 +100,7 @@ const UserCreate: NextPage = (props) => {
             setShowError(true);
             console.error(err);
             return;
-        });
-
-        // TODO: add required policies here        
+        });  
 
         if (result?.id) {
             router.push('/company/createCompany').catch((err) => console.error(err));

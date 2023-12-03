@@ -22,6 +22,10 @@ import { bookingDriverRouter } from "./routers/bookingDriver";
 import { bidRouter } from "./routers/bid";
 import { paymentRouter } from "./routers/payment";
 import { stateRouter } from "./routers/state";
+import { policyRouter } from "./routers/policy";
+import { requiredPoliciesRouter } from "./routers/requiredPolicy";
+import { userPolicyRouter } from "./routers/userPolicy";
+import { userSignatureRouter } from "./routers/userSignature";
 
 /**
  * This is the primary router for your server.
@@ -51,7 +55,10 @@ export const appRouter = createTRPCRouter({
   bid: bidRouter,
   payment: paymentRouter,
   state: stateRouter,
-  
+  policy: policyRouter,
+  requiredPolicy: requiredPoliciesRouter,
+  userPolicy: userPolicyRouter,
+  userSignature: userSignatureRouter,
 });
 
 // export type definition of API

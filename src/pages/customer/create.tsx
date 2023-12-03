@@ -77,7 +77,7 @@ const UserCreate: NextPage = (props) => {
     // Check if a user account exists, if so take them to the get-quote page
     if (userAccount) {
         if (userAccount.id?.length > 0) {
-            router.push(`/get-quote`).catch((err) => console.error(err));
+            router.push(`/customer/policies/eSignature`).catch((err) => console.error(err));
         }
     }
 
@@ -96,9 +96,7 @@ const UserCreate: NextPage = (props) => {
             setShowError(true);
             console.error(err);
             return;
-        });
-
-        // TODO: add required policies here        
+        });     
 
         if (result?.id) {
             await fetch('/api/email/welcomeCustomer', {
@@ -110,7 +108,7 @@ const UserCreate: NextPage = (props) => {
                 })
             });
 
-            router.push('/get-quote').catch((err) => console.error(err));
+            router.push('/customer/policies/eSignature').catch((err) => console.error(err));
         }
     }
 

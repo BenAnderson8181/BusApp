@@ -85,13 +85,13 @@ const CompanyCreate: NextPage = (props) => {
     const elds = eldQuery.data;
     const states = stateQuery.data;
     const _userId = userQuery.data?.id ?? '';
+    
     // if no user account is found they need to make this before creating a company
     if (_userId === '') {
         router.push('/company/createUser').catch((err) => console.error(err));
     }
 
     const onSubmit = async (company: CompanyFormType) => {
-        console.log('save company')
         const result = await createCompanyMutation.mutateAsync({
             ...company
         })
@@ -131,8 +131,7 @@ const CompanyCreate: NextPage = (props) => {
                 })
             });
 
-            router.push(`/company/${result.id}`).catch((err) => console.error(err)); // Have this changed out to the policies page once we get those added
-            //router.push('/company/policies/eSignature').catch((err) => console.error(err)); // Push to the policies process start
+            router.push('/company/policies/eSignature').catch((err) => console.error(err)); // Push to the policies process start
         }
     }
 
