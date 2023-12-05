@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^4.25.7",
+    "@clerk/themes": "^1.7.9",
     "@hookform/resolvers": "^3.3.2",
     "@prisma/client": "^5.1.1",
     "@react-email/components": "^0.0.11",

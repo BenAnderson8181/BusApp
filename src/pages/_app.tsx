@@ -1,6 +1,7 @@
 import { type AppType } from "next/app";
 import { ClerkProvider, RedirectToSignIn, SignedIn, SignedOut } from "@clerk/nextjs";
 import { useRouter } from "next/router";
+import { dark } from '@clerk/themes';
 
 import { api } from "~/utils/api";
 
@@ -12,20 +13,21 @@ const MyApp: AppType = ({ Component, pageProps }) => {
 
   return (
     <ClerkProvider appearance={{
-      signIn: {
-        elements: {
-          formButtonPrimary: {
-            color: 'white',
-            backgroundColor: '#391867',
-            "&:hover": {
-              backgroundColor: '#5e3893',
-            },
-          }
-        },
-      },
-      variables: {
-        colorPrimary: '#391867',
-      }
+      // signIn: {
+      //   elements: {
+      //     formButtonPrimary: {
+      //       color: 'white',
+      //       backgroundColor: '#333',
+      //       "&:hover": {
+      //         backgroundColor: '#111',
+      //       },
+      //     }
+      //   },
+      // },
+      // variables: {
+      //   colorPrimary: '#000',
+      // }
+      baseTheme: dark
     }}>
       {isPublicPath && (
         <Component {...pageProps} />
