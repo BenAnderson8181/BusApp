@@ -26,7 +26,7 @@ const CompanyHeader: NextPage = () => {
                         { 
                             open &&
                             <div className="absolute top-8 border border-slate-200 shadow-sm shadow-slate-100 px-8 py-3 block bg-black rounded-lg text-xl z-0">
-                                <div><Link href={`/company/${idValue}/vehicals`} passHref>Vehicals</Link></div>
+                                <div><Link href={`/company/${idValue}/vehicles`} passHref>Vehicles</Link></div>
                                 <div><Link href={`/company/${idValue}/garages`} passHref>Garages</Link></div>
                                 <div><Link href={`/company/${idValue}/team`} passHref>Team</Link></div>
                                 <div><Link href={`/company/${idValue}/rates`} passHref>Rates</Link></div>

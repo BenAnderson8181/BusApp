@@ -20,12 +20,13 @@ const Vehicals: NextPage = (props) => {
     const[vehicleId, setVehicleId] = useState('');
     const [vehicleModalIsOpen, setVehicleModalIsOpen] = useState(false);
 
-    const handleGarageModalAdd = () => {
+    const handleVehicleModalAdd = () => {
         setVehicleModalIsOpen(true);
     }
 
-    const handleGarageModalUpdate = (garageId:string) => {
-        setVehicleId (()=>garageId)
+    const handleVehicleModalUpdate = (vehicleId:string) => {
+        console.log("vehicleID", vehicleId)
+        setVehicleId (()=>vehicleId)
         setVehicleModalIsOpen(true);
     }
 
@@ -35,9 +36,9 @@ const Vehicals: NextPage = (props) => {
     }
 
     const router = useRouter();
-    const routeCompanyId:string = router.query.id as string;
+    const routeCompanyId : string = router.query.id as string;
 
-    const VehicleQuery = api.vehicle.list.useQuery({companyId:routeCompanyId});
+    const VehicleQuery = api.vehicle.list.useQuery({companyId : routeCompanyId});
     if (VehicleQuery.isLoading) {
         return <Loading type='Page' />
     }
@@ -47,6 +48,7 @@ const Vehicals: NextPage = (props) => {
     }
 
     const vehicles = VehicleQuery.data;
+    console.log("vehicles",vehicles);
 
     return (
         <>
@@ -62,7 +64,7 @@ const Vehicals: NextPage = (props) => {
                 <div className="relative text-slate-200 text-4xl mb-2">
                     <h1>Vehicles</h1>
                     <div className="absolute -top-3 right-0 cursor-pointer hover:scale-105 hover:opacity-80">
-                        <RiAddBoxFill size='3rem' className="text-slate-300 mt-3" onClick={handleGarageModalAdd}/>
+                        <RiAddBoxFill size='3rem' className="text-slate-300 mt-3" onClick={handleVehicleModalAdd}/>
                     </div>
                 </div>
                 <div className="px-4 bg-white rounded-lg">    
@@ -80,7 +82,7 @@ const Vehicals: NextPage = (props) => {
                                     </p>
                                 </div>
                                 <div className = "inline-flex items-center text-base font-semibold text-slate-900">
-                                    <RiEditBoxFill size='2rem' className="cursor-pointer text-slate-500" onClick={() => handleGarageModalUpdate(vehicle.id)} />
+                                    <RiEditBoxFill size='2rem' className="cursor-pointer text-slate-500" onClick={() => handleVehicleModalUpdate(vehicle.id)} />
                                 </div>
                             </div>
                             </li>

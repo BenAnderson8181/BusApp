@@ -50,7 +50,8 @@ const Vehicles = ({ vehicleId: vehicleId, companyId, onClose, onRefresh}: Props)
     });
     
     const [showErrorAlert, setShowErrorAlert] = useState(false);
-    const createGarageMutation = api.vehicle.create.useMutation();
+    const createVehicleMutation = api.vehicle.create.useMutation();
+    const updateVehicleMutation = api.vehicle.update.useMutation();
     const GarageQuery = api.garage.list.useQuery({companyId:companyId ?? ''});
     const VehicleTypeQuery = api.vehicleType.list.useQuery();
     const VehicleQuery = api.vehicle.findById.useQuery({id:vehicleId ?? ''}, {enabled: vehicleId.length > 0});
@@ -67,21 +68,36 @@ const Vehicles = ({ vehicleId: vehicleId, companyId, onClose, onRefresh}: Props)
     const garages = GarageQuery.data;
     const vehicle = VehicleQuery?.data;
 
-
     const onSubmit = async (vehicle: VehicleFormType) => {
-        const result = await createGarageMutation.mutateAsync({
-            ...vehicle
-        })
-        .catch((err) => {
-            setShowErrorAlert(true);
-            console.error(err);
-            return;
-        });
+        if (vehicleId === "")
+        {
+            const result = await createVehicleMutation.mutateAsync({
+                ...vehicle
+            })
+            .catch((err) => {
+                setShowErrorAlert(true);
+                console.error(err);
+                return;
+            });
 
-        if (result?.id) {
-            onRefresh();
-            onClose(false);
+            if (result?.id) {
+                onRefresh();
+                onClose(false);
+            }
         } else {
+            const result = await updateVehicleMutation.mutateAsync({
+                id:vehicleId, ...vehicle
+            })
+            .catch((err) => {
+                setShowErrorAlert(true);
+                console.error(err);
+                return;
+            });
+
+            if (result?.id) {
+                onRefresh();
+                onClose(false);
+            }
         }
     }
 
@@ -90,11 +106,6 @@ const Vehicles = ({ vehicleId: vehicleId, companyId, onClose, onRefresh}: Props)
         onClose(false);
     }
 
-    console.log("isDirty",isDirty);
-    console.log("isSubmitting",isSubmitting);
-    console.log("isValid",isValid);
-    console.log("Form Disabled?",(isSubmitting || !isDirty || !isValid));
-    console.log("register",vehicle)
     return (
         <>
             <div className="flex flex-col items-center justify-center text-slate-600">
@@ -229,7 +240,9 @@ const Vehicles = ({ vehicleId: vehicleId, companyId, onClose, onRefresh}: Props)
                                         title="Wifi"
                                         className="relative float-left h-8 w-8 rounded-full shadow border border-slate-400 text-slate-700 py-0 px-2 text-xl"
                                         defaultChecked={vehicle?.wifi ?? false}
-                                        {...register("wifi")} />
+                                        {...register("wifi")}
+                                        aria-invalid={Boolean(errors.wifi)}
+                                    />
                                     <label className="inline-block text-2xl font-light">Wifi</label>
                                     <AlertInput type="error">{errors?.wifi?.message}</AlertInput>
                                 </div>
@@ -252,6 +265,16 @@ const Vehicles = ({ vehicleId: vehicleId, companyId, onClose, onRefresh}: Props)
                                         {...register("ADACompliant")} />
                                     <label className="inline-block text-2xl font-light">ADA Compliant</label>
                                     <AlertInput type="error">{errors?.ADACompliant?.message}</AlertInput>
+                                </div>
+                                <div className="block w-full">
+                                    <input
+                                        type="checkbox"
+                                        title="Outlets"
+                                        className="relative float-left h-8 w-8 rounded-full shadow border border-slate-400 text-slate-700 py-0 px-2 text-xl"
+                                        defaultChecked={vehicle?.Outlets ?? false}
+                                        {...register("Outlets")} />
+                                    <label className="inline-block text-2xl font-light">Outlets</label>
+                                    <AlertInput type="error">{errors?.Outlets?.message}</AlertInput>
                                 </div>
                                 <div className="block w-full">
                                     <input

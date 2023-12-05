@@ -72,7 +72,7 @@ export const vehicleRouter = createTRPCRouter({
             const vehicles = await ctx.db.vehicle.findMany({
                 where: {
                     companyId: input.companyId,
-                    isActive: input.showInActive
+                    isActive: !input.showInActive
                 }
             })
 

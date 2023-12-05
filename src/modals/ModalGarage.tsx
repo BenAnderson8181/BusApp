@@ -93,8 +93,6 @@ const Garages = ({ garageId, companyId, onClose, onRefresh}: Props) => {
         onClose(false);
     }
 
-    console.log("Form Disabled?",(isSubmitting || !isDirty || !isValid));
-
     return (
         <>
             <div className="flex flex-col items-center justify-center text-slate-600">
@@ -141,7 +139,7 @@ const Garages = ({ garageId, companyId, onClose, onRefresh}: Props) => {
                                     className="rounded-md border w-full border-slate-400 text-slate-700 py-0 px-2 text-xl"
                                     defaultValue={garage?.stateId ?? '-1'}
                                     {...register("stateId")}
-                                    aria-invalid={Boolean(errors.stateId)}
+                                    aria-invalid={Boolean(errors?.stateId)}
                                 >
                                     <option value="-1">-- Please select a state --</option>
                                     {
@@ -160,7 +158,7 @@ const Garages = ({ garageId, companyId, onClose, onRefresh}: Props) => {
                                     defaultValue={garage?.zip ?? ''}
                                     placeholder="Zip"
                                     {...register("zip")}
-                                    aria-invalid={Boolean(errors.zip)}
+                                    aria-invalid={Boolean(errors?.zip)}
                                 />
                                 <AlertInput type="error">{errors?.zip?.message}</AlertInput>
                             </label>

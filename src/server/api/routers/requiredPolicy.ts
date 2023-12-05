@@ -5,6 +5,7 @@ export const requiredPoliciesRouter = createTRPCRouter({
     list: publicProcedure
         .query(async ({ctx}) => {
             const requiredPolicies = await ctx.db.requiredPolicy.findMany();
+            console.log("required Policies",requiredPolicies);
 
             if (!requiredPolicies)
                 throw new TRPCError({ code: 'NOT_FOUND', message: 'Unable to find required policies.' });
