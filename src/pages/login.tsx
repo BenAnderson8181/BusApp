@@ -7,7 +7,6 @@ import { useUser } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 import Loading from "~/components/Loading";
 import LoadError from "~/components/LoadError";
-import policy from "prisma/data/policy";
  
 const Login: NextPage = (props) => {
     console.log(props);
