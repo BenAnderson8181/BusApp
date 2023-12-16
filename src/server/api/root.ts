@@ -26,6 +26,9 @@ import { policyRouter } from "./routers/policy";
 import { requiredPoliciesRouter } from "./routers/requiredPolicy";
 import { userPolicyRouter } from "./routers/userPolicy";
 import { userSignatureRouter } from "./routers/userSignature";
+import { documentRouter } from "./routers/document";
+import { documentLogRouter } from "./routers/documentLog";
+import { documentTypeRouter } from "./routers/documentType";
 
 /**
  * This is the primary router for your server.
@@ -59,6 +62,9 @@ export const appRouter = createTRPCRouter({
   requiredPolicy: requiredPoliciesRouter,
   userPolicy: userPolicyRouter,
   userSignature: userSignatureRouter,
+  document: documentRouter,
+  documentLog: documentLogRouter,
+  documentType: documentTypeRouter,
 });
 
 // export type definition of API

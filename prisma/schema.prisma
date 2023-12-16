@@ -155,6 +155,8 @@ model User {
     isActive                    Boolean         @default(true)
     userPolicies                UserPolicy[]
     userSignature               UserSignature[]
+    documents                   Document[]
+    documentLogs                DocumentLog[]
     createdAt                   DateTime        @default(now())
     updatedAt                   DateTime        @updatedAt
 
@@ -404,12 +406,13 @@ model State {
 }
 
 model Policy {
-    id                  String          @id @default(cuid())
+    id                  String              @id @default(cuid())
     title               String
     userPolicies        UserPolicy[]
     requiredPolicies    RequiredPolicy[]
-    createdAt           DateTime        @default(now())
-    updatedAt           DateTime        @updatedAt
+    documentsTypes      DocumentType[]
+    createdAt           DateTime            @default(now())
+    updatedAt           DateTime            @updatedAt
 }
 
 model UserPolicy {
@@ -445,6 +448,47 @@ model UserSignature {
     userId          String          @unique
     user            User            @relation(fields: [userId], references: [id])
     signature       String          @db.Text
+    createdAt       DateTime        @default(now())
+    updatedAt       DateTime        @updatedAt
+
+    @@index([userId])
+}
+
+model DocumentType {
+    id              String          @id @default(cuid())
+    name            String
+    policies        Policy[]
+    documents       Document[]
+    createdAt       DateTime        @default(now())
+    updatedAt       DateTime        @updatedAt
+}
+
+model Document {
+    id              String          @id @default(cuid())
+    url             String
+    name            String
+    key             String
+    size            Int
+    documentTypeId  String
+    documentType    DocumentType    @relation(fields: [documentTypeId], references: [id])
+    userId          String
+    user            User            @relation(fields: [userId], references: [id])
+    createdAt       DateTime        @default(now())
+    updatedAt       DateTime        @updatedAt
+
+    @@index([documentTypeId])
+    @@index([userId])
+}
+
+model DocumentLog {
+    id              String          @id @default(cuid())
+    url             String
+    name            String
+    key             String
+    size            Int
+    userId          String
+    user            User            @relation(fields: [userId], references: [id])
+    action          String
     createdAt       DateTime        @default(now())
     updatedAt       DateTime        @updatedAt
 
