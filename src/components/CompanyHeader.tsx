@@ -11,7 +11,7 @@ const CompanyHeader: NextPage = () => {
     const idValue = router.query.id as string;
 
     return (
-            <nav className="h-24 w-full p-6 flex justify-between bg-slate-900 fixed top-0 text-slate-100 text-xl">
+            <nav className="h-24 w-full p-6 flex justify-between bg-slate-900 fixed top-0 text-slate-100 text-xl z-50">
                 <div className="flex justify-start pl-12">
                     <Link href={`/company/${idValue}`} className="text-2xl font-thin" passHref>Go Florida Charter</Link>
                 </div>
@@ -25,7 +25,7 @@ const CompanyHeader: NextPage = () => {
                         More&nbsp;<RiArrowDownSLine size={20} className="text-slate-100 inline" />
                         { 
                             open &&
-                            <div className="absolute top-8 border border-slate-200 shadow-sm shadow-slate-100 px-8 py-3 block bg-black rounded-lg text-xl z-0">
+                            <div className="absolute top-8 border border-slate-200 shadow-sm shadow-slate-100 px-8 py-3 block bg-black rounded-lg text-xl">
                                 <div><Link href={`/company/${idValue}/vehicles`} passHref>Vehicles</Link></div>
                                 <div><Link href={`/company/${idValue}/garages`} passHref>Garages</Link></div>
                                 <div><Link href={`/company/${idValue}/team`} passHref>Team</Link></div>
