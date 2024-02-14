@@ -22,7 +22,7 @@ const CompanyHeader: NextPage = () => {
                     <Link href={`/company/${idValue}/availability`} passHref>Availability</Link>
                     <Link href={`/company/${idValue}/metrics`} passHref>Metrics</Link>
                     <div className="relative block cursor-pointer" onMouseLeave={() => setOpen(false)} onMouseEnter={() => setOpen(true)}>
-                        More&nbsp;<RiArrowDownSLine size={20} className="text-slate-100 inline" />
+                        Settings&nbsp;<RiArrowDownSLine size={20} className="text-slate-100 inline" />
                         { 
                             open &&
                             <div className="absolute top-8 border border-slate-200 shadow-sm shadow-slate-100 px-8 py-3 block bg-black rounded-lg text-xl">

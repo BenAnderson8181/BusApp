@@ -29,8 +29,8 @@ Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/ver
 
 # Planetscale - DB commands
 - pscale auth login
-- pscale connect affiliated-court-services dev --port 3309
-
+- pscale connect busapp dev --port 3309
+- pscale org switch busapp #set auth organization
 # NPM commands
 - npm run dev # this runs the app locally
 - npm run build # this builds the app to check for errors, always run this before commiting

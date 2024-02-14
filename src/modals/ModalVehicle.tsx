@@ -16,6 +16,7 @@ const vehicleSchema = z.object({
     capacity: z.number().int(),
     vinNumber: z.string().min(2).max(50),
     licensePlate: z.string().min(2).max(50),
+    rateId: z.string(),
     garageId: z.string().optional(),
     wifi: z.boolean(),
     bathroom: z.boolean(),
@@ -34,7 +35,7 @@ const vehicleSchema = z.object({
 
     type Props = {
             vehicleId: string;
-            companyId: string; 
+            companyId: string;
             onClose: React.Dispatch<React.SetStateAction<boolean>>;
             onRefresh: () => void;
         }
@@ -53,19 +54,21 @@ const Vehicles = ({ vehicleId: vehicleId, companyId, onClose, onRefresh}: Props)
     const createVehicleMutation = api.vehicle.create.useMutation();
     const updateVehicleMutation = api.vehicle.update.useMutation();
     const GarageQuery = api.garage.list.useQuery({companyId:companyId ?? ''});
+    const RateQuery = api.rate.list.useQuery({companyId:companyId ?? ''});
     const VehicleTypeQuery = api.vehicleType.list.useQuery();
     const VehicleQuery = api.vehicle.findById.useQuery({id:vehicleId ?? ''}, {enabled: vehicleId.length > 0});
 
-    if (VehicleTypeQuery.isLoading || GarageQuery.isLoading || (vehicleId.length > 0 && VehicleQuery.isLoading)) {
+    if (VehicleTypeQuery.isLoading || GarageQuery.isLoading || RateQuery.isLoading || (vehicleId.length > 0 && VehicleQuery.isLoading)) {
         return <Loading type='Modal' />
     }
 
-    if (VehicleTypeQuery.isError || GarageQuery.isLoading || VehicleQuery.isError) {
+    if (VehicleTypeQuery.isError || GarageQuery.isLoading || VehicleQuery.isError || RateQuery.isError) {
         return <LoadError type='Modal' />
     }
 
     const vehicleTypes = VehicleTypeQuery.data;
     const garages = GarageQuery.data;
+    const rates = RateQuery.data;
     const vehicle = VehicleQuery?.data;
 
     const onSubmit = async (vehicle: VehicleFormType) => {
@@ -130,6 +133,23 @@ const Vehicles = ({ vehicleId: vehicleId, companyId, onClose, onRefresh}: Props)
                                         }
                                     </select>
                                     <AlertInput type="error">{errors?.garageId?.message}</AlertInput>
+                                </label>
+                                <label>
+                                    <div className="text-2xl font-light">Assigned Rate:</div>
+                                    <select
+                                        className="rounded-md border w-full border-slate-400 text-slate-700 py-0 px-2 text-xl"
+                                        defaultValue={vehicle?.rateId ?? '-1'}
+                                        {...register("rateId")}
+                                        aria-invalid={Boolean(errors.rateId)}
+                                    >
+                                        <option value="-1">-- Please select a rate --</option>
+                                        {
+                                            rates?.map(({id, name}) => (
+                                                <option key={id} value={id}>{name}</option>
+                                            ))
+                                        }
+                                    </select>
+                                    <AlertInput type="error">{errors?.rateId?.message}</AlertInput>
                                 </label>
                                 <label>
                                     <div className="text-2xl font-light">Vehicle Name:</div>
