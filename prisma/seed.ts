@@ -10,7 +10,7 @@ const prisma = new PrismaClient();
 // import day from "./data/day";
 // import state from "./data/state";
 // import policy from "./data/policy";
-// import requiredPolicy from "./data/requiredPolicy";
+import requiredPolicy from "./data/requiredPolicy";
 // import documentType from "./data/documentType";
 
 async function main() {
@@ -45,8 +45,8 @@ async function main() {
 
         // level 2 seeding - dependant on a level 1 id
 
-        // // required policy - depends on User Type and Policy
-        // await prisma.requiredPolicy.createMany({ data: requiredPolicy });
+        // required policy - depends on User Type and Policy
+        await prisma.requiredPolicy.createMany({ data: requiredPolicy });
 }
 
 main()

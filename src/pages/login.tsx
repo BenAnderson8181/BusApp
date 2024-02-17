@@ -26,6 +26,9 @@ const Login: NextPage = (props) => {
     }
 
     if (userQuery.isError || userPolicyQuery.isError || policyQuery.isError) {
+        console.log('user', userQuery.isError)
+        console.log('user policy', userPolicyQuery.isError)
+        console.log('policy', policyQuery.isError)
         return <LoadError type='Page' />
     }
 
