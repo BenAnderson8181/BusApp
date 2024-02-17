@@ -30,38 +30,16 @@ const Login: NextPage = (props) => {
     }
 
     const _user = userQuery.data;
-    const userType = _user?.userType?.name === 'Customer' ? 'customer' : 'company';
+    const userType = 'company';
     const userPolicies = userPolicyQuery.data;
     const eSignaturePolicy = policyQuery.data?.find(p => p.title === 'E-Signature Consent');
     const eSignatureConsentPolicy = userPolicies.find(p => p.policyId === eSignaturePolicy?.id);
     const informedConsentPolicy = policyQuery.data?.find(p => p.title === 'Informed Consent');
     const userInformedConsentPolicy = userPolicies.find(p => p.policyId === informedConsentPolicy?.id);
-    const consumerAgreementPolicy = policyQuery.data?.find(p => p.title === 'Consumer Agreement');
-    const userConsumerAgreementPolicy = userPolicies.find(p => p.policyId === consumerAgreementPolicy?.id);
-    const paymenrAgreementPolicy = policyQuery.data?.find(p => p.title === 'Payment Agreement');
-    const userPaymentAgreementPolicy = userPolicies.find(p => p.policyId === paymenrAgreementPolicy?.id);
-
-    // if type is customer and they have an account then take them to the get-quote page
-    if (userType === 'customer') {
-        if (_user?.id) {
-            if (!eSignatureConsentPolicy) {
-                router.push('/customer/policies/eSignature').catch((err) => console.error(err));
-            }
-            else if (!userConsumerAgreementPolicy) {
-                router.push('/customer/policies/consumerAgreement').catch((err) => console.error(err));
-            }
-            else if (!userPaymentAgreementPolicy) {
-                router.push('/customer/policies/paymentAgreement').catch((err) => console.error(err));
-            }
-            else {
-                router.push(`/get-quote`).catch((err) => console.error(err));
-            }
-        }
-    }
 
     // if type is for a company
-    if (_user?.id != null && userType !== 'customer') {
-        // if they have a company id redirect them to the company dashboard
+    if (_user?.id != null) {
+        // if they have a company id redirect them to the company dashboard or policy page
         if (_user.companyId) {
             if (!eSignatureConsentPolicy) {
                 router.push('/company/policies/eSignature').catch((err) => console.error(err));
@@ -89,12 +67,9 @@ const Login: NextPage = (props) => {
             <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#333] to-[#000]">
                 <Header />
                 <div className="container text-slate-100 text-4xl">
-                    <div className="flex justify-center">
-                        <button className="pb-3 border-b border-white hover:border-b-4 transition-all duration-500" onClick={() => router.push('/customer/create')}>Create customer&nbsp;&nbsp;&nbsp;<RiArrowRightLine size={35} className="text-slate-100 inline" /></button>
-                    </div>
                     <div className="flex flex-row items-center justify-evenly gap-12 px-4 pt-32">
                         <button className="pb-3 border-b border-white hover:border-b-4 transition-all duration-500" onClick={() => router.push('/company/createUser')}>Create company&nbsp;&nbsp;&nbsp;<RiArrowRightLine size={35} className="text-slate-100 inline" /></button>
-                        <button className="pb-3 border-b border-white hover:border-b-4 transition-all duration-500" onClick={() => router.push('/company/existingCompany')}>Join existing company&nbsp;&nbsp;&nbsp;<RiArrowRightLine size={35} className="text-slate-100 inline" /></button>
+                        {/* <button className="pb-3 border-b border-white hover:border-b-4 transition-all duration-500" onClick={() => router.push('/company/existingCompany')}>Join existing company&nbsp;&nbsp;&nbsp;<RiArrowRightLine size={35} className="text-slate-100 inline" /></button> */}
                     </div>
                 </div>
             </main>
