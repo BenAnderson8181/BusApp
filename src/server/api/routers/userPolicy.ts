@@ -79,8 +79,8 @@ export const userPolicyRouter = createTRPCRouter({
                     }
                 });
 
-                if (!user)
-                    throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to load user from external id.'  });
+                // This should not error as this is used on user creation and they will not have an account yet
+                if (!user) return [];
 
                 userId = user.id;
             }
