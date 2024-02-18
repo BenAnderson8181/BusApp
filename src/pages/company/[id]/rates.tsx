@@ -47,7 +47,7 @@ const Rates: NextPage = (props) => {
     }
 
     const rates = RateQuery.data;
-
+    console.log("Rates: ",rates, "Company: ", routeCompanyId);
     return (
         <>
         <Head>

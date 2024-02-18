@@ -57,7 +57,7 @@ export const rateRouter = createTRPCRouter({
             const rates = await ctx.db.rate.findMany({
                 where: {
                     companyId: input.companyId,
-                    isActive: input.showInActive
+                    isActive: !input.showInActive
                 }
             })
 
