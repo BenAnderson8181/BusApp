@@ -47,3 +47,11 @@ Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/ver
 - git commit -m '' - This commits the changes with a message
 - git push - Pushes to github
 - git pull - Pulls latest, please pull before pushing
+
+# Google Maps
+- npm install @react-google-maps/api
+- npm install use-places-autocomplete
+- https://www.youtube.com/watch?v=BL2XVTqz9Ek
+- https://www.youtube.com/watch?v=9e-5QHpadi0
+- https://dany-rivera.medium.com/how-to-add-google-maps-api-in-next-js-13-step-by-step-c027813d5769
+- https://www.99darshan.com/posts/interactive-maps-using-nextjs-and-google-maps
