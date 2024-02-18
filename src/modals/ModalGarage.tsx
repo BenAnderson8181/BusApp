@@ -80,11 +80,14 @@ const Garages = ({ garageId, companyId, onClose, onRefresh}: Props) => {
                 console.error(err);
                 return;
             });
-
+            
             if (result?.id) {
+                garageQuery.refetch();
                 onRefresh();
                 onClose(false);
             }
+            
+            
         }
     }
 

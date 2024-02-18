@@ -47,7 +47,7 @@ const Rates: NextPage = (props) => {
     }
 
     const rates = RateQuery.data;
-    console.log("Rates: ",rates, "Company: ", routeCompanyId);
+    //console.log("Rates: ",rates, "Company: ", routeCompanyId);
     return (
         <>
         <Head>
@@ -76,7 +76,11 @@ const Rates: NextPage = (props) => {
                                         {rate.name} 
                                     </p>
                                     <p className="text-sm text-slate-600 truncate">
-                                        X
+                                        <p>Transfer: $ {Number(rate.transfer).toFixed(2)}</p>
+                                        <p>Dead Mile: ${Number(rate.deadMile).toFixed(2)}</p>
+                                        <p>Live Mile: ${Number(rate.liveMile).toFixed(2)}</p>
+                                        <p>Hourly: ${Number(rate.hourly).toFixed(2)}</p>
+                                        <p>Daily: ${Number(rate.daily).toFixed(2)}</p>
                                     </p>
                                 </div>
                                 <div className = "inline-flex items-center text-base font-semibold text-slate-900">

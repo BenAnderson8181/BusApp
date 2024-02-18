@@ -98,6 +98,7 @@ const Vehicles = ({ vehicleId: vehicleId, companyId, onClose, onRefresh}: Props)
             });
 
             if (result?.id) {
+                VehicleQuery.refetch();
                 onRefresh();
                 onClose(false);
             }

@@ -54,6 +54,7 @@ export const rateRouter = createTRPCRouter({
             })
         )
         .query(async ({ ctx, input }) => {
+            //console.log("@@@input", input);
             const rates = await ctx.db.rate.findMany({
                 where: {
                     companyId: input.companyId,

@@ -73,6 +73,7 @@ const Rates = ({ rateId, companyId, onClose, onRefresh}: Props) => {
                 onClose(false);
             }
         } else {
+            console.log("rate-->", rateId, rate);
             const result = await updateRateMutation.mutateAsync({
                 id:rateId, ...rate
             })
@@ -83,6 +84,7 @@ const Rates = ({ rateId, companyId, onClose, onRefresh}: Props) => {
             });
 
             if (result?.id) {
+                rateQuery.refetch();
                 onRefresh();
                 onClose(false);
             }
