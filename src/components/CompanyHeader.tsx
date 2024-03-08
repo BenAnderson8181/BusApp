@@ -22,19 +22,18 @@ const CompanyHeader: NextPage = () => {
                     <Link href={`/company/${idValue}/availability`} passHref>Availability</Link>
                     <Link href={`/company/${idValue}/metrics`} passHref>Metrics</Link>
                     <div className="relative block cursor-pointer" onMouseLeave={() => setOpen(false)} onMouseEnter={() => setOpen(true)}>
-                        Settings&nbsp;<RiArrowDownSLine size={20} className="text-slate-100 inline" />
+                        Setup&nbsp;<RiArrowDownSLine size={20} className="text-slate-100 inline" />
                         { 
                             open &&
                             <div className="absolute top-8 border border-slate-200 shadow-sm shadow-slate-100 px-8 py-3 block bg-black rounded-lg text-xl">
-                                <div><Link href={`/company/${idValue}/vehicles`} passHref>Vehicles</Link></div>
-                                <div><Link href={`/company/${idValue}/garages`} passHref>Garages</Link></div>
-                                <div><Link href={`/company/${idValue}/team`} passHref>Team</Link></div>
                                 <div><Link href={`/company/${idValue}/rates`} passHref>Rates</Link></div>
-                                <div><Link href={`/company/${idValue}/information`} passHref>Company</Link></div>
+                                <div><Link href={`/company/${idValue}/garages`} passHref>Garages</Link></div>
+                                <div><Link href={`/company/${idValue}/vehicles`} passHref>Vehicles</Link></div>
+                                <div><Link href={`/company/${idValue}/team`} passHref>Team</Link></div>
+                                <div><Link href={`/company/${idValue}/settings`} passHref>Company</Link></div>
                             </div>
                         }
                     </div>
-                    <Link href="/operators" passHref>Operators</Link>
                 </div>
                 <div className="flex items-center">
                     <UserButton />
