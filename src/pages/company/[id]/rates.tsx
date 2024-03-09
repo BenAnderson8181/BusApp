@@ -76,11 +76,7 @@ const Rates: NextPage = (props) => {
                                         {rate.name} 
                                     </p>
                                     <p className="text-sm text-slate-600 truncate">
-                                        <p>Transfer: $ {Number(rate.transfer).toFixed(2)}</p>
-                                        <p>Dead Mile: ${Number(rate.deadMile).toFixed(2)}</p>
-                                        <p>Live Mile: ${Number(rate.liveMile).toFixed(2)}</p>
-                                        <p>Hourly: ${Number(rate.hourly).toFixed(2)}</p>
-                                        <p>Daily: ${Number(rate.daily).toFixed(2)}</p>
+                                    Transfer: $ {Number(rate.transfer).toFixed(2)} <br/> Dead Mile: ${Number(rate.deadMile).toFixed(2)} --- Live Mile: ${Number(rate.liveMile).toFixed(2)} <br/> Hourly: ${Number(rate.hourly).toFixed(2)} --- Daily: ${Number(rate.daily).toFixed(2)}
                                     </p>
                                 </div>
                                 <div className = "inline-flex items-center text-base font-semibold text-slate-900">

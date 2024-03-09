@@ -12,7 +12,7 @@ const Availability: NextPage = (props) => {
             <meta name="description" content="App to manage operators for busing quotes" />
             <link rel="icon" href="/favicon.ico" />
         </Head>
-        <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#333] to-[#000]">
+        <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-slate-800 to-slate-900">
             <CompanyHeader />
             <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 text-slate-100">
                 Availability
